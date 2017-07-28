@@ -8,9 +8,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
-public abstract class CommandManager <T>{
-	public abstract boolean execute(T player);
-	public abstract T execute();
+public abstract class CommandManager{
+	public abstract boolean execute(User player);
+	public abstract User execute();
 	public void getConsoleCommand(String commandName) throws ClassNotFoundException, IOException, SQLException {
 		
 	}

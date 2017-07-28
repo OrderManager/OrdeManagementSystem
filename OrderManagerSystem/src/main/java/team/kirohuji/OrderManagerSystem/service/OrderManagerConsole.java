@@ -3,14 +3,14 @@ package team.kirohuji.OrderManagerSystem.service;
 import java.io.InputStream;
 import java.util.Scanner;
 
-public class QingkeConsole {
+public class OrderManagerConsole {
 	public static String NEW_LINE = "\n";
 	private static Scanner scanner;
 	static {
 		scanner = new Scanner(System.in);
 	}
 
-	private QingkeConsole(InputStream is) {
+	private OrderManagerConsole(InputStream is) {
 		scanner = new Scanner(is);
 	}
 

@@ -1,54 +1,40 @@
 package team.kirohuji.OrderManagerSystem.controller;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-
-import team.kirohuji.OrderManagerSystem.entity.BeSuper;
 import team.kirohuji.OrderManagerSystem.entity.CommandManager;
+import team.kirohuji.OrderManagerSystem.entity.Instructs;
 import team.kirohuji.OrderManagerSystem.entity.User;
-import team.kirohuji.OrderManagerSystem.service.QingkeConsole;
+import team.kirohuji.OrderManagerSystem.service.OrderManagerConsole;
 import team.kirohuji.OrderManagerSystem.util.JdbcUtil;
 
-public class BeSuperLauncher {
-	private final static String EXIT = "exit";
-	private final static String HELP = "help";
-	private final static String ASK = "ask";
-	private final static String ANSWER = "answer";
-	private final static String LIST = "list";
-	private final static String SCORE = "score";
-	private final static String REGISTER = "register";
-	private final static String LOGIN = "login";
-//	private final static String 
+public class OrderManagerLauncher {
 	private String command;
 	private User player = null;
 	private JdbcUtil jdbc;
 	private CommandManager systemCommandManager;
 	private CommandManager consoleCommandManager;
-
+	public OrderManagerLauncher(){
+	}
 	public boolean execute() throws SQLException {
 		load();
-		QingkeConsole.print("Welcome to play this game");
-		QingkeConsole.println("Nice to meet you,You can type 'help' for usage");
-		QingkeConsole.println("If no account please register first");
-		// ������Ϣ
+		OrderManagerConsole.print("Welcome to play this game");
+		OrderManagerConsole.println("Nice to meet you,You can type 'help' for usage");
+		OrderManagerConsole.println("If no account please register first");
 		while (true) {
 			boolean flag = false;
-			command = QingkeConsole.askUserInput("cmd> ");
+			command = OrderManagerConsole.askUserInput("cmd> ");
 			if (command.equalsIgnoreCase(LOGIN)) {
 				try {
 					systemCommandManager.getSystemCommand(command);
 					player = systemCommandManager.execute();
-					if(player!=null){
+					if (player != null) {
 						break;
 					}
-					
+
 				} catch (ClassNotFoundException | IOException e) {
 					e.printStackTrace();
 				}
@@ -63,19 +49,18 @@ public class BeSuperLauncher {
 				try {
 					systemCommandManager.getSystemCommand(command);
 					player = systemCommandManager.execute();
-					
 				} catch (ClassNotFoundException | IOException e) {
-					// TODO Auto-generated catch block
+				
 					e.printStackTrace();
 				}
 			} else {
-				QingkeConsole.println("Don't have this command, please enter again");
+				OrderManagerConsole.println("Don't have this command, please enter again");
 			}
 		}
-		// ����ģʽ
-		QingkeConsole.println("You can type 'help' for usage");
+	
+		OrderManagerConsole.println("You can type 'help' for usage");
 		while (true) {
-			command = QingkeConsole.askUserInput("cmd> ");
+			command = OrderManagerConsole.askUserInput("cmd> ");
 			if (command.equalsIgnoreCase(EXIT)) {
 				System.out.println("Bye Bye");
 				break;
@@ -96,22 +81,18 @@ public class BeSuperLauncher {
 				} catch (ClassNotFoundException | IOException e) {
 					e.printStackTrace();
 				}
-
 			} else {
-				QingkeConsole.println("Don't have this command, please enter again");
+				OrderManagerConsole.println("Don't have this command, please enter again");
 			}
 		}
 		return true;
 	}
-
 	private JdbcUtil loadBeSuper() {
 		try {
 			return JdbcUtil.getInstance();
 		} catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		beSuper = new BeSuper();
 		return jdbc;
 	}
 
