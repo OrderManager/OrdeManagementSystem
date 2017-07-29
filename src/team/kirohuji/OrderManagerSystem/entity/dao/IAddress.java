@@ -6,7 +6,7 @@ public interface IAddress {
     int deleteById(Integer id);
 
     int insert(Address record);
-
+    
     Address selectById(Integer id);
 
     int updateById(Address record);
