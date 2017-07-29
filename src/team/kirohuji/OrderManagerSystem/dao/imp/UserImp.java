@@ -1,19 +1,19 @@
 package team.kirohuji.OrderManagerSystem.dao.imp;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
-import team.kirohuji.OrderManagerSystem.dao.IInstruct;
+import team.kirohuji.OrderManagerSystem.dao.IUser;
 import team.kirohuji.OrderManagerSystem.entity.Instruct;
+import team.kirohuji.OrderManagerSystem.entity.User;
 import team.kirohuji.OrderManagerSystem.util.JdbcUtil;
 
-public class InstructImp implements IInstruct{
+public class UserImp implements IUser{
 	private JdbcUtil jdbc = null;
 	private SqlSession sqlSession;
 
-	public InstructImp() {
+	public UserImp() {
 		try {
 			jdbc = JdbcUtil.getInstance();
 		} catch (ClassNotFoundException | IOException e) {
@@ -29,39 +29,35 @@ public class InstructImp implements IInstruct{
 	}
 
 	@Override
-	public int insert(Instruct record) {
+	public int insert(User record) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public Instruct selectById(Integer id) {
+	public User selectById(Integer id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public int updateById(IInstruct record) {
+	public int updateById(User record) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public Instruct selectByName(String command) {
+	public boolean selectUserByCodeAndPassword(User user) {
 		sqlSession = jdbc.getSqlSessionFactory().openSession();
-		Instruct instruct=sqlSession.selectOne("team.kirohuji.OrderManagerSystem.mapping.InstructMapper.selectByName", command);
+		User temp=sqlSession.selectOne("team.kirohuji.OrderManagerSystem.mapping.UserMapper.selectUserByCodeAndPassword", user);
 		sqlSession.commit();
+
 		sqlSession.close();
-		return instruct;
+		if(temp==null){
+			return false;
+		}
+		return true;
 	}
 
-	@Override
-	public List<Instruct> selectAll() {
-		sqlSession = jdbc.getSqlSessionFactory().openSession();
-		List<Instruct> instructs=sqlSession.selectList("team.kirohuji.OrderManagerSystem.mapping.InstructMapper.selectAll");
-		sqlSession.commit();
-		sqlSession.close();
-		return instructs;
-	}
 
 }

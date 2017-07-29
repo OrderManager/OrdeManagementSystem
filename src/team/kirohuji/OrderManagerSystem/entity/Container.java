@@ -7,8 +7,8 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
+import team.kirohuji.OrderManagerSystem.dao.IContainer;
 import team.kirohuji.OrderManagerSystem.dao.imp.InstructImp;
-import team.kirohuji.OrderManagerSystem.entity.dao.IContainer;
 
 public class Container<T> implements IContainer<T>{
 	private List<T> items;

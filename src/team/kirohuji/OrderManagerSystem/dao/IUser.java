@@ -1,8 +1,9 @@
-package team.kirohuji.OrderManagerSystem.entity.dao;
+package team.kirohuji.OrderManagerSystem.dao;
 
 import team.kirohuji.OrderManagerSystem.entity.User;
 
 public interface IUser {
+	
     int deleteById(Integer id);
 
     int insert(User record);
@@ -10,4 +11,6 @@ public interface IUser {
     User selectById(Integer id);
 
     int updateById(User record);
+    
+	boolean selectUserByCodeAndPassword(User user);
 }

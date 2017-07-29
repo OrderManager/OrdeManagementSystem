@@ -1,4 +1,4 @@
-package team.kirohuji.OrderManagerSystem.entity.dao;
+package team.kirohuji.OrderManagerSystem.dao;
 
 import java.util.List;
 

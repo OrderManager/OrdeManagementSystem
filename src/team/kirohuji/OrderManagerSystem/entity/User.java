@@ -1,63 +1,83 @@
 package team.kirohuji.OrderManagerSystem.entity;
 
 public class User {
-    private Integer id;
+	private Integer id;
 
-    private String password;
+	private String name;
 
-    private Integer phone;
+	private String code;
+	
+	private String password;
 
-    private String address;
+	private Integer phone;
 
-    private Double money;
+	private String address;
 
-    private Integer ruleId;
+	private Double money;
 
-    public Integer getId() {
-        return id;
-    }
+	private Integer ruleId;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public Integer getPhone() {
-        return phone;
-    }
+	public void setPassword(String password) {
+		this.password = password == null ? null : password.trim();
+	}
 
-    public void setPhone(Integer phone) {
-        this.phone = phone;
-    }
+	public Integer getPhone() {
+		return phone;
+	}
 
-    public String getAddress() {
-        return address;
-    }
+	public void setPhone(Integer phone) {
+		this.phone = phone;
+	}
 
-    public void setAddress(String address) {
-        this.address = address == null ? null : address.trim();
-    }
+	public String getAddress() {
+		return address;
+	}
 
-    public Double getMoney() {
-        return money;
-    }
+	public void setAddress(String address) {
+		this.address = address == null ? null : address.trim();
+	}
 
-    public void setMoney(Double money) {
-        this.money = money;
-    }
+	public Double getMoney() {
+		return money;
+	}
 
-    public Integer getRuleId() {
-        return ruleId;
-    }
+	public void setMoney(Double money) {
+		this.money = money;
+	}
 
-    public void setRuleId(Integer ruleId) {
-        this.ruleId = ruleId;
-    }
+	public Integer getRuleId() {
+		return ruleId;
+	}
+
+	public void setRuleId(Integer ruleId) {
+		this.ruleId = ruleId;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
 }

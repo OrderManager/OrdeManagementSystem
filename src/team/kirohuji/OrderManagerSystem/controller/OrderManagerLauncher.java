@@ -42,7 +42,6 @@ public class OrderManagerLauncher {
 			if (instruct != null) {
 				if (instruct.getName().equalsIgnoreCase("exit")){
 					sqlSession.close();
-					
 					break;
 				}
 				CommandType commandType = commandTypeJudge.Judge(instruct);
@@ -50,7 +49,7 @@ public class OrderManagerLauncher {
 				case SYSTEMCOMMAND:
 					try {
 						systemCommandManager.getSystemCommand(instruct);
-						player = systemCommandManager.execute();
+						player = systemCommandManager.execute(commandType.SYSTEMCOMMAND);
 						continue;
 					} catch (ClassNotFoundException | IOException e) {
 						e.printStackTrace();

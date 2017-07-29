@@ -30,31 +30,66 @@ public class ConsoleCommandManager implements CommandManager {
 
 	public User execute(User player) {
 		this.player = player;
-		command.dispose();
+	//	command.dispose();
 		return player;
 	}
 
 	@Override
-	public User execute() {
+	public User execute(CommandType buyer) {
 		// TODO Auto-generated method stub
 		return player;
 	}
 	@Override
 	public void execute(User player, CommandType buyer) {
 		this.player = player;
-		command.dispose();
+		command.dispose(buyer);
 	}
 	@Override
 	public void getConsoleCommand(Instruct instruct) throws ClassNotFoundException, IOException, SQLException {
 		jdbc = JdbcUtil.getInstance();
 		switch (instruct.getName()) {
-		case "1":
-			command=()->{
+		case "addGoods":
+			command=c->{
 				return false;
 			};
 			break;
-		case "2":
-			command=()->{
+		case "deleteGoods":
+			command=c->{
+				return false;
+			};
+			break;
+		case "openShop":
+			command=c->{
+				return false;
+			};
+			break;
+		case "closeShop":
+			command=c->{
+				return false;
+			};
+			break;
+		case "buy":
+			command=c->{
+				return false;
+			};
+			break;
+		case "showgoods":
+			command=c->{
+				return false;
+			};
+			break;
+		case "showshop":
+			command=c->{
+				return false;
+			};
+			break;
+		case "location":
+			command=c->{
+				return false;
+			};
+			break;
+		case "addItemCart":
+			command=c->{
 				return false;
 			};
 			break;
