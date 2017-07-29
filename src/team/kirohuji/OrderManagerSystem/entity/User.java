@@ -16,6 +16,23 @@ public class User {
 	private Double money;
 
 	private Integer ruleId;
+	
+	public User() {
+		super();
+	}
+
+	public User(Integer id, String name, String code, String password, Integer phone, String address, Double money,
+			Integer ruleId) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.code = code;
+		this.password = password;
+		this.phone = phone;
+		this.address = address;
+		this.money = money;
+		this.ruleId = ruleId;
+	}
 
 	public Integer getId() {
 		return id;

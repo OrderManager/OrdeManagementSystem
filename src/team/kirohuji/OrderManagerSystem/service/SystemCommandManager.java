@@ -34,9 +34,10 @@ public class SystemCommandManager implements CommandManager {
 		command.dispose(buyer);
 
 	}
+
 	@Override
 	public User execute(CommandType buyer) {
-	    command.dispose(buyer);
+		command.dispose(buyer);
 		return player;
 	}
 
@@ -70,30 +71,64 @@ public class SystemCommandManager implements CommandManager {
 				break;
 			case "register":
 				command = c -> {
-					OrderManagerConsole.println("register");
+					OrderManagerConsole.println("in register ... Ok!\n   start register");
+					String name = OrderManagerConsole.askUserInput("Please enter your register name\ncmd>");
+					String code = OrderManagerConsole.askUserInput("Please enter your register account\ncmd>");
+					String password = OrderManagerConsole.askUserInput("Please enter your register password\ncmd>");
+					String phone = OrderManagerConsole.askUserInput("Please enter your register phone\ncmd>");
+					String address = OrderManagerConsole.askUserInput("Please enter your register address\ncmd>");
+					String money = OrderManagerConsole.askUserInput("Please enter your register money\ncmd>");
+					String rule = OrderManagerConsole
+							.askUserInput("Please enter your register rule:buyer or seller or admin \ncmd>");
+					UserImp userUtil = new UserImp();
+					int rule_id = rule.equals("buyer") ? 3 : rule.equals("admin") ? 1 : 2;
+					User temp = new User(userUtil.selectId()+1, name, code, password, Integer.valueOf(phone), address,
+							Double.valueOf(money), rule_id);
+					OrderManagerConsole.println("regigstering...");
+					if (userUtil.insert(temp) > 0) {
+						OrderManagerConsole.println("success register");
+						String is = OrderManagerConsole.askUserInput("Are you logged in?:yes or no\ncmd>");
+						if (is.equalsIgnoreCase("yes")) {
+							OrderManagerConsole.println("success login");
+							OrderManagerConsole.println("Welcome " + temp.getName());
+							OrderManagerConsole
+									.println("Your current status is " + userUtil.selectByCodeGainRule(temp));
+							this.player = temp;
+							return true;
+						}else{
+							OrderManagerConsole.println("Success,You can type 'help' for usage")
+							this.player = null;
+							return true;
+						}
+
+					}
 					return true;
 				};
 				break;
 			case "login":
 				command = c -> {
-					String code=OrderManagerConsole.askUserInput("Please enter your account\n cmd>");
-					String password=OrderManagerConsole.askUserInput("Please enter your password\n cmd>");
-					UserImp userUtil=new UserImp();
-					User temp=new User();
+					String code = OrderManagerConsole.askUserInput("Please enter your account\ncmd>");
+					String password = OrderManagerConsole.askUserInput("Please enter your password\ncmd>");
+					UserImp userUtil = new UserImp();
+					User temp = new User();
 					temp.setCode(code);
 					temp.setPassword(password);
 					OrderManagerConsole.println("loging...");
-					if(userUtil.selectUserByCodeAndPassword(temp)){
+					temp = userUtil.selectUserByCodeAndPassword(temp);
+					if (temp != null) {
 						OrderManagerConsole.println("success login");
-						OrderManagerConsole.println("Welcome "+temp.getName());
-						this.player=temp;
+						OrderManagerConsole.println("Welcome " + temp.getName());
+						OrderManagerConsole.println("Your current status is " + userUtil.selectByCodeGainRule(temp));
+						this.player = temp;
 					}
 					return true;
 				};
 				break;
 			case "logout":
 				command = c -> {
-					OrderManagerConsole.println("logout");
+					OrderManagerConsole.println("logouting...");
+					this.player = null;
+					OrderManagerConsole.println("Success,You can type 'help' for usage");
 					return true;
 				};
 				break;

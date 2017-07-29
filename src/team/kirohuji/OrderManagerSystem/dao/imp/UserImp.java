@@ -30,8 +30,11 @@ public class UserImp implements IUser{
 
 	@Override
 	public int insert(User record) {
-		// TODO Auto-generated method stub
-		return 0;
+		sqlSession = jdbc.getSqlSessionFactory().openSession();
+		int rule=sqlSession.insert("team.kirohuji.OrderManagerSystem.mapping.UserMapper.insert", record);
+		sqlSession.commit();
+		sqlSession.close();
+		return rule;
 	}
 
 	@Override
@@ -47,16 +50,42 @@ public class UserImp implements IUser{
 	}
 
 	@Override
-	public boolean selectUserByCodeAndPassword(User user) {
+	public User selectUserByCodeAndPassword(User user) {
 		sqlSession = jdbc.getSqlSessionFactory().openSession();
 		User temp=sqlSession.selectOne("team.kirohuji.OrderManagerSystem.mapping.UserMapper.selectUserByCodeAndPassword", user);
 		sqlSession.commit();
-
 		sqlSession.close();
 		if(temp==null){
-			return false;
+			return null;
 		}
-		return true;
+		return temp;
+	}
+
+	@Override
+	public String selectByCodeGainRule(User user) {
+		sqlSession = jdbc.getSqlSessionFactory().openSession();
+		String rule=sqlSession.selectOne("team.kirohuji.OrderManagerSystem.mapping.UserMapper.selectByCodeGainRule", user);
+		sqlSession.commit();
+		sqlSession.close();
+		return rule;
+	}
+
+	@Override
+	public User selectByCodeGainStatus(String code) {
+		sqlSession = jdbc.getSqlSessionFactory().openSession();
+		User temp=sqlSession.selectOne("team.kirohuji.OrderManagerSystem.mapping.UserMapper.selectByCodeGainStatus", code);
+		sqlSession.commit();
+		sqlSession.close();
+		return temp;
+	}
+
+	@Override
+	public int selectId() {
+		sqlSession = jdbc.getSqlSessionFactory().openSession();
+		int id=sqlSession.selectOne("team.kirohuji.OrderManagerSystem.mapping.UserMapper.selectId");
+		sqlSession.commit();
+		sqlSession.close();
+		return id;
 	}
 
 

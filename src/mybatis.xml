@@ -28,7 +28,7 @@
 
 	<mappers>
 	    <mapper resource="team/kirohuji/OrderManagerSystem/mapping/InstructMapper.xml"/>
-		
+		 <mapper resource="team/kirohuji/OrderManagerSystem/mapping/UserMapper.xml"/>
 	</mappers>
 
 </configuration>
