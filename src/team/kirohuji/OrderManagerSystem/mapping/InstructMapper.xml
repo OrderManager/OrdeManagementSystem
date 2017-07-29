@@ -1,36 +1,54 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="team.kirohuji.OrderManagerSystem.entity.dao.InstructMapper" >
-  <resultMap id="BaseResultMap" type="team.kirohuji.OrderManagerSystem.entity.Instruct" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="content" property="content" jdbcType="VARCHAR" />
-    <result column="rule_id" property="ruleId" jdbcType="INTEGER" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    id, name, content, rule_id
-  </sql>
-  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from instruct
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteById" parameterType="java.lang.Integer" >
-    delete from instruct
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="team.kirohuji.OrderManagerSystem.entity.Instruct" >
-    insert into instruct (id, name, content, 
-      rule_id)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
-      #{ruleId,jdbcType=INTEGER})
-  </insert>
-  <update id="updateById" parameterType="team.kirohuji.OrderManagerSystem.entity.Instruct" >
-    update instruct
-    set name = #{name,jdbcType=VARCHAR},
-      content = #{content,jdbcType=VARCHAR},
-      rule_id = #{ruleId,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+<mapper namespace="team.kirohuji.OrderManagerSystem.mapping.InstructMapper">
+	<resultMap id="BaseResultMap"
+		type="team.kirohuji.OrderManagerSystem.entity.Instruct">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="rule_id" property="ruleId" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, name, content, rule_id
+	</sql>
+	<select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from instruct
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<select id="selectByName" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from instruct
+		where name = #{name,jdbcType=VARCHAR}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from instruct
+	</select>
+
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from instruct
+		where
+		id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="team.kirohuji.OrderManagerSystem.entity.Instruct">
+		insert into instruct (id,
+		name, content,
+		rule_id)
+		values (#{id,jdbcType=INTEGER},
+		#{name,jdbcType=VARCHAR},
+		#{content,jdbcType=VARCHAR},
+		#{ruleId,jdbcType=INTEGER})
+	</insert>
+	<update id="updateById" parameterType="team.kirohuji.OrderManagerSystem.entity.Instruct">
+		update instruct
+		set name =
+		#{name,jdbcType=VARCHAR},
+		content = #{content,jdbcType=VARCHAR},
+		rule_id = #{ruleId,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
 </mapper>

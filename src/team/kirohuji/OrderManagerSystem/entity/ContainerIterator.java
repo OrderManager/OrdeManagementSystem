@@ -10,7 +10,7 @@ public class ContainerIterator<T> implements Iterator<T>{
 	}
 	@Override
 	public boolean hasNext() {
-		return current<container.size();
+		return current<container.getItems().size();
 	}
 
 	@Override

@@ -9,7 +9,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 public class JdbcUtil {
 	private SqlSessionFactory sqlSessionFactory;
-	private Properties pt = new Properties();
+	//private Properties pt = new Properties();
 	private static JdbcUtil jdbcUtil = null;
 
 	public SqlSessionFactory getSqlSessionFactory() {
@@ -24,8 +24,11 @@ public class JdbcUtil {
 		String name = "mybatis.xml";
 		InputStream input = JdbcUtil.class.getClassLoader().getResourceAsStream(name);
 		sqlSessionFactory = new SqlSessionFactoryBuilder().build(input);
+		input.close();
 	}
-
+	public void closeConnection(){
+		
+	}
 	public static synchronized JdbcUtil getInstance() throws ClassNotFoundException, IOException {
 		if (jdbcUtil == null) {
 			jdbcUtil = new JdbcUtil();

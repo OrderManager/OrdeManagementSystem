@@ -13,5 +13,5 @@ public interface IContainer<T> {
 	Iterator<T> iterator();
 	int size();
 	T getItem(int index);
-	void importFromDatabase(SqlSession sqlSession);
+	
 }

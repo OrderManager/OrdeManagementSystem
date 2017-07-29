@@ -1,26 +1,27 @@
 package team.kirohuji.OrderManagerSystem.entity;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
+import team.kirohuji.OrderManagerSystem.dao.imp.InstructImp;
 import team.kirohuji.OrderManagerSystem.entity.dao.IContainer;
 
 public class Container<T> implements IContainer<T>{
-	private T[] items;
-	private int currentSize;
-	private int size;
-	private static final int DEFAULT_CAPACITY = 10;
-	public Container(SqlSession sqlSession){
-		importFromDatabase(sqlSession);
+	private List<T> items;
+	public List<T> getItems() {
+		return items;
 	}
+	private static final int DEFAULT_CAPACITY = 10;
 	public Container(){
-		size=0;
-		currentSize=0;
+		items=new ArrayList<T>();
 	}
 	@Override
 	public void insert(T x) {
-		items[size++]=x;
+		items.add(x);
 	}
 
 	@Override
@@ -31,25 +32,18 @@ public class Container<T> implements IContainer<T>{
 
 	@Override
 	public boolean isEmpty() {
-		return size==0;
+		return items.size()==0;
 	}
 
 	@Override
 	public void makeEmpty() {
 		items=null;
-		size=0;
-	}
-
-	@Override
-	public void importFromDatabase(SqlSession sqlSession) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public boolean contains(T x) {
-		for(int i=0;i<=size;i++){
-			if(x.equals(items[i])){
+		for(int i=0;i<items.size();i++){
+			if(x.equals(items.get(i))){
 				return true;
 			}
 		}
@@ -64,11 +58,11 @@ public class Container<T> implements IContainer<T>{
 	@Override
 	public int size() {
 		// TODO Auto-generated method stub
-		return size;
+		return items.size();
 	}
 	@Override
 	public T getItem(int index) {
-		return items[index];
+		return items.get(index);
 	}
 	
 	
