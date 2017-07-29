@@ -9,10 +9,16 @@ import java.sql.Statement;
 
 import team.kirohuji.OrderManagerSystem.entity.Command;
 import team.kirohuji.OrderManagerSystem.entity.CommandManager;
+import team.kirohuji.OrderManagerSystem.entity.Container;
+import team.kirohuji.OrderManagerSystem.entity.Instruct;
 import team.kirohuji.OrderManagerSystem.entity.User;
 import team.kirohuji.OrderManagerSystem.util.JdbcUtil;
 
-public class SystemCommandManager extends CommandManager {
+public class SystemCommandManager implements CommandManager {
+	private static final int SYSTEMCOMMAND = 1;
+	private static final int USERCOMMAND = 2;
+	private Container<Instruct> container;
+	private Instruct instruct;
 	private JdbcUtil jdbc;
 	private Command command;
 	private User player;
@@ -27,9 +33,16 @@ public class SystemCommandManager extends CommandManager {
 		this.player = player;
 		return command.dispose();
 	}
+	@Override
+	public void getConsoleCommand(Instruct instruct) throws ClassNotFoundException, IOException, SQLException {
+		// TODO Auto-generated method stub
+		
+	}
 
-	public void getSystemCommand(String commandName) {
-
+	@Override
+	public void getSystemCommand(Instruct instruct) throws ClassNotFoundException, IOException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

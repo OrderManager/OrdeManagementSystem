@@ -1,4 +1,4 @@
-package team.kirohuji.OrderManagerSystem.service;
+package team.kirohuji.OrderManagerSystem.util;
 
 import java.io.InputStream;
 import java.util.Scanner;

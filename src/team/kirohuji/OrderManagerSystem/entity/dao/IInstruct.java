@@ -2,12 +2,12 @@ package team.kirohuji.OrderManagerSystem.entity.dao;
 
 import team.kirohuji.OrderManagerSystem.entity.Instruct;
 
-public interface InstructMapper {
+public interface IInstruct {
     int deleteById(Integer id);
 
-    int insert(Instruct record);
+    int insert(IInstruct record);
 
-    Instruct selectById(Integer id);
+    IInstruct selectById(Integer id);
 
-    int updateById(Instruct record);
+    int updateById(IInstruct record);
 }
