@@ -96,7 +96,7 @@ public class SystemCommandManager implements CommandManager {
 							this.player = temp;
 							return true;
 						}else{
-							OrderManagerConsole.println("Success,You can type 'help' for usage")
+							OrderManagerConsole.println("Success,You can type 'help' for usage");
 							this.player = null;
 							return true;
 						}
