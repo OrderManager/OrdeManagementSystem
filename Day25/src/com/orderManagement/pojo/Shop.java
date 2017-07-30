@@ -1,0 +1,42 @@
+package com.orderManagement.pojo;
+
+public class Shop {
+
+	private int id;
+	private int isopen;
+	private String name;
+	private String content;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getIsopen() {
+		return isopen;
+	}
+
+	public void setIsopen(int isopen) {
+		this.isopen = isopen;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+}
