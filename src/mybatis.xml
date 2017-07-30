@@ -27,8 +27,12 @@
 
 
 	<mappers>
-	    <mapper resource="team/kirohuji/OrderManagerSystem/mapping/InstructMapper.xml"/>
-		 <mapper resource="team/kirohuji/OrderManagerSystem/mapping/UserMapper.xml"/>
+		<mapper resource="team/kirohuji/OrderManagerSystem/mapping/InstructMapper.xml" />
+		<mapper resource="team/kirohuji/OrderManagerSystem/mapping/UserMapper.xml" />
+		<mapper resource="team/kirohuji/OrderManagerSystem/mapping/GoodsMapper.xml" />
+		<mapper resource="team/kirohuji/OrderManagerSystem/mapping/ShopMapper.xml" />
+		<mapper
+			resource="team/kirohuji/OrderManagerSystem/mapping/GoodsHasShopMapper.xml" />
 	</mappers>
 
 </configuration>

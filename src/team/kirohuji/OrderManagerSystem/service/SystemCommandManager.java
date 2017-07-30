@@ -19,9 +19,8 @@ import team.kirohuji.OrderManagerSystem.util.JdbcUtil;
 import team.kirohuji.OrderManagerSystem.util.OrderManagerConsole;
 
 public class SystemCommandManager implements CommandManager {
-	private static final int SYSTEMCOMMAND = 1;
-	private static final int USERCOMMAND = 2;
 	private Container<Instruct> container = new Container<>();
+	private Container<Instruct> userContainer= new Container<>();
 	private Instruct instruct;
 	private JdbcUtil jdbc;
 	private Command command;
@@ -65,24 +64,32 @@ public class SystemCommandManager implements CommandManager {
 			switch (instruct.getName().toLowerCase()) {
 			case "help":
 				command = c -> {
-					OrderManagerConsole.printUsage(container);
+					if (player == null) {
+						OrderManagerConsole.printUsage(container);
+					} else {
+						OrderManagerConsole.printUsage(container);
+						OrderManagerConsole.printUsage(userContainer, player.getRuleId());
+					}
 					return true;
 				};
 				break;
 			case "register":
 				command = c -> {
 					OrderManagerConsole.println("in register ... Ok!\n   start register");
-					String name = OrderManagerConsole.askUserInput("Please enter your register name\ncmd>");
-					String code = OrderManagerConsole.askUserInput("Please enter your register account\ncmd>");
-					String password = OrderManagerConsole.askUserInput("Please enter your register password\ncmd>");
-					String phone = OrderManagerConsole.askUserInput("Please enter your register phone\ncmd>");
-					String address = OrderManagerConsole.askUserInput("Please enter your register address\ncmd>");
-					String money = OrderManagerConsole.askUserInput("Please enter your register money\ncmd>");
+					String name = OrderManagerConsole
+							.askUserInput("Please enter your register name:can not be empty\nregister>");
+					String code = OrderManagerConsole
+							.askUserInput("Please enter your register account:can not be empty\nregister>");
+					String password = OrderManagerConsole
+							.askUserInput("Please enter your register password:can not be empty\nregister>");
+					String phone = OrderManagerConsole.askUserInput("Please enter your register phone\nregister>");
+					String address = OrderManagerConsole.askUserInput("Please enter your register address\nregister>");
+					String money = OrderManagerConsole.askUserInput("Please enter your register money\nregister>");
 					String rule = OrderManagerConsole
 							.askUserInput("Please enter your register rule:buyer or seller or admin \ncmd>");
 					UserImp userUtil = new UserImp();
 					int rule_id = rule.equals("buyer") ? 3 : rule.equals("admin") ? 1 : 2;
-					User temp = new User(userUtil.selectId()+1, name, code, password, Integer.valueOf(phone), address,
+					User temp = new User(userUtil.selectId() + 1, name, code, password, Integer.valueOf(phone), address,
 							Double.valueOf(money), rule_id);
 					OrderManagerConsole.println("regigstering...");
 					if (userUtil.insert(temp) > 0) {
@@ -95,7 +102,7 @@ public class SystemCommandManager implements CommandManager {
 									.println("Your current status is " + userUtil.selectByCodeGainRule(temp));
 							this.player = temp;
 							return true;
-						}else{
+						} else {
 							OrderManagerConsole.println("Success,You can type 'help' for usage");
 							this.player = null;
 							return true;
@@ -107,8 +114,13 @@ public class SystemCommandManager implements CommandManager {
 				break;
 			case "login":
 				command = c -> {
-					String code = OrderManagerConsole.askUserInput("Please enter your account\ncmd>");
-					String password = OrderManagerConsole.askUserInput("Please enter your password\ncmd>");
+					if (player != null && instruct.getName().toLowerCase().equalsIgnoreCase("login")) {
+						OrderManagerConsole.println("Login Error");
+						OrderManagerConsole.println("Unable to log in because you are logged in");
+						return false;
+					}
+					String code = OrderManagerConsole.askUserInput("Please enter your account\nlogin>");
+					String password = OrderManagerConsole.askUserInput("Please enter your password\nlogin>");
 					UserImp userUtil = new UserImp();
 					User temp = new User();
 					temp.setCode(code);
@@ -116,10 +128,13 @@ public class SystemCommandManager implements CommandManager {
 					OrderManagerConsole.println("loging...");
 					temp = userUtil.selectUserByCodeAndPassword(temp);
 					if (temp != null) {
-						OrderManagerConsole.println("success login");
+						OrderManagerConsole.println("Success login");
 						OrderManagerConsole.println("Welcome " + temp.getName());
 						OrderManagerConsole.println("Your current status is " + userUtil.selectByCodeGainRule(temp));
 						this.player = temp;
+					} else {
+						OrderManagerConsole.println("Login Error");
+						OrderManagerConsole.println("User name or password error");
 					}
 					return true;
 				};
@@ -140,10 +155,6 @@ public class SystemCommandManager implements CommandManager {
 				break;
 			}
 		}
-
-		// OrderManagerConsole.println("Invalid command.See the user as
-		// below:\n");
-		// OrderManagerConsole.printUsage();
 	}
 
 	@Override
@@ -151,11 +162,22 @@ public class SystemCommandManager implements CommandManager {
 		Iterator<Instruct> it = container.iterator();
 		while (it.hasNext()) {
 			Instruct instruct = it.next();
-			if (instruct.getRuleId() == SYSTEMCOMMAND) {
+			if (instruct.getRuleId() == OrderManagerConsole.SYSTEMCOMMAND) {
 				this.container.insert(instruct);
 			}
 		}
 
+	}
+
+	@Override
+	public void setUserInstructSet(Container container) {
+		Iterator<Instruct> it = container.iterator();
+		while (it.hasNext()) {
+			Instruct instruct = it.next();
+			if (instruct.getRuleId() != OrderManagerConsole.SYSTEMCOMMAND) {
+				this.userContainer.insert(instruct);
+			}
+		}
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import team.kirohuji.OrderManagerSystem.controller.OrderManagerLauncher;
 import team.kirohuji.OrderManagerSystem.service.OrderManagerLauncherFacotry;
 
 public class OrderManagerApplication {
+
 	private static boolean flag=false;
 	private static OrderManagerLauncherFacotry bslf;
 	public static void main(String[] args) throws InterruptedException {

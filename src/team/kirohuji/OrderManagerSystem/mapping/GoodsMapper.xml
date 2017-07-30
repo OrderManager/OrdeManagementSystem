@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="team.kirohuji.OrderManagerSystem.entity.dao.GoodsMapper" >
+<mapper namespace="team.kirohuji.OrderManagerSystem.mapping.GoodsMapper" >
   <resultMap id="BaseResultMap" type="team.kirohuji.OrderManagerSystem.entity.Goods" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="price" property="price" jdbcType="DOUBLE" />
@@ -15,6 +15,12 @@
   <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
+    from goods
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectId" resultType="int" >
+    select 
+    count(*)
     from goods
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -38,5 +44,10 @@
       is_delete = #{isDelete,jdbcType=INTEGER},
       inventry = #{inventry,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="deleteByName" parameterType="String" >
+    update goods
+    set is_delete = 1
+    where name = #{name,jdbcType=VARCHAR}
   </update>
 </mapper>

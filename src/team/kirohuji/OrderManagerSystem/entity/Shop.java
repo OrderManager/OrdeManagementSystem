@@ -13,7 +13,12 @@ public class Shop {
         return id;
     }
 
-    public void setId(Integer id) {
+    @Override
+	public String toString() {
+		return "Shop [name=" + name + ", content=" + content + "]";
+	}
+
+	public void setId(Integer id) {
         this.id = id;
     }
 

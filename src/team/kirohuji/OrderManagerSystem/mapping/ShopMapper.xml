@@ -1,36 +1,66 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="team.kirohuji.OrderManagerSystem.entity.dao.ShopMapper" >
-  <resultMap id="BaseResultMap" type="team.kirohuji.OrderManagerSystem.entity.Shop" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="is_Open" property="isOpen" jdbcType="INTEGER" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="content" property="content" jdbcType="VARCHAR" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    id, is_Open, name, content
-  </sql>
-  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from shop
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteById" parameterType="java.lang.Integer" >
-    delete from shop
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="team.kirohuji.OrderManagerSystem.entity.Shop" >
-    insert into shop (id, is_Open, name, 
-      content)
-    values (#{id,jdbcType=INTEGER}, #{isOpen,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{content,jdbcType=VARCHAR})
-  </insert>
-  <update id="updateById" parameterType="team.kirohuji.OrderManagerSystem.entity.Shop" >
-    update shop
-    set is_Open = #{isOpen,jdbcType=INTEGER},
-      name = #{name,jdbcType=VARCHAR},
-      content = #{content,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+<mapper namespace="team.kirohuji.OrderManagerSystem.mapping.ShopMapper">
+	<resultMap id="BaseResultMap" type="team.kirohuji.OrderManagerSystem.entity.Shop">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="is_Open" property="isOpen" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, is_Open, name, content
+	</sql>
+	<select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from shop
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<select id="selectByName" resultMap="BaseResultMap"
+		parameterType="String">
+		select
+		<include refid="Base_Column_List" />
+		from shop
+		where name = #{name,jdbcType=VARCHAR}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from shop
+	</select>
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from shop
+		where id =
+		#{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="team.kirohuji.OrderManagerSystem.entity.Shop">
+		insert into shop (id, is_Open,
+		name,
+		content)
+		values (#{id,jdbcType=INTEGER},
+		#{isOpen,jdbcType=INTEGER},
+		#{name,jdbcType=VARCHAR},
+		#{content,jdbcType=VARCHAR})
+	</insert>
+	<update id="updateById" parameterType="team.kirohuji.OrderManagerSystem.entity.Shop">
+		update shop
+		set is_Open =
+		#{isOpen,jdbcType=INTEGER},
+		name = #{name,jdbcType=VARCHAR},
+		content =
+		#{content,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByNameOpen" parameterType="String">
+		update shop
+		set
+		is_Open = 1
+		where name = #{name,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByNameClose" parameterType="String">
+		update shop
+		set
+		is_Open = 0
+		where name = #{name,jdbcType=VARCHAR}
+	</update>
 </mapper>

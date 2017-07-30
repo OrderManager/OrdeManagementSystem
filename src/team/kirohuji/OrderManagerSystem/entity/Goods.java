@@ -60,4 +60,17 @@ public class Goods {
     public void setInventry(Integer inventry) {
         this.inventry = inventry;
     }
+    public Goods(){
+    	super();
+    }
+	public Goods(Integer id, Double price, String name, String content, Integer isDelete, Integer inventry) {
+		super();
+		this.id = id;
+		this.price = price;
+		this.name = name;
+		this.content = content;
+		this.isDelete = isDelete;
+		this.inventry = inventry;
+	}
+    
 }

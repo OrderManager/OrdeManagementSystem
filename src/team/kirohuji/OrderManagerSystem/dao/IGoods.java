@@ -3,11 +3,15 @@ package team.kirohuji.OrderManagerSystem.dao;
 import team.kirohuji.OrderManagerSystem.entity.Goods;
 
 public interface IGoods {
-    int deleteById(Integer id);
+	int deleteByName(String name);
 
-    int insert(Goods record);
+	int deleteById(Integer id);
 
-    Goods selectById(Integer id);
+	int insert(Goods record);
 
-    int updateById(Goods record);
+	Goods selectById(Integer id);
+
+	int updateById(Goods record);
+
+	int selectId();
 }

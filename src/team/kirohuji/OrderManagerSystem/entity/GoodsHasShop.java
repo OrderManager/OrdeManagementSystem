@@ -1,11 +1,17 @@
 package team.kirohuji.OrderManagerSystem.entity;
 
-public class GoodsHasShopKey {
+public class GoodsHasShop {
     private Integer goodsId;
 
     private Integer shopId;
+    
+    public GoodsHasShop(Integer goodsId, Integer shopId) {
+		super();
+		this.goodsId = goodsId;
+		this.shopId = shopId;
+	}
 
-    public Integer getGoodsId() {
+	public Integer getGoodsId() {
         return goodsId;
     }
 

@@ -18,6 +18,7 @@ import team.kirohuji.OrderManagerSystem.util.JdbcUtil;
 import team.kirohuji.OrderManagerSystem.util.OrderManagerConsole;
 
 public class OrderManagerLauncher {
+
 	private Container<Instruct> container = null;
 	private Instruct instruct = null;
 	private User player = null;
@@ -36,7 +37,7 @@ public class OrderManagerLauncher {
 		OrderManagerConsole.print("Welcome to play this game");
 		OrderManagerConsole.println("Nice to meet you,You can type 'help' for usage");
 		OrderManagerConsole.println("If no account please register first");
-		OrderManagerConsole.printUsage(container);
+		OrderManagerConsole.printUsage(container,OrderManagerConsole.SYSTEMCOMMAND);
 		while (true) {
 			instruct = EncapsulationCommand(OrderManagerConsole.askUserInput("cmd> "));
 			if (instruct != null) {
@@ -101,6 +102,7 @@ public class OrderManagerLauncher {
 		systemCommandManager.setInstructSet(container);
 		consoleCommandManager.setInstructSet(container);
 		commandTypeJudge = new CommandTypeJudge();
+		systemCommandManager.setUserInstructSet(container);
 	}
 
 	private Instruct EncapsulationCommand(String command) {

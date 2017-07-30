@@ -16,4 +16,5 @@ public interface CommandManager{
 	public void setInstructSet(Container container);
 	public Container<Instruct> getContainer();
 	public void execute(User player, CommandType buyer);
+	void setUserInstructSet(Container container);
 }

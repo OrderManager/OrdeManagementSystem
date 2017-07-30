@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="team.kirohuji.OrderManagerSystem.entity.dao.GoodsHasShopMapper" >
-  <resultMap id="BaseResultMap" type="team.kirohuji.OrderManagerSystem.entity.GoodsHasShopKey" >
+<mapper namespace="team.kirohuji.OrderManagerSystem.mapping.GoodsHasShopMapper" >
+  <resultMap id="BaseResultMap" type="team.kirohuji.OrderManagerSystem.entity.GoodsHasShop" >
     <id column="goods_id" property="goodsId" jdbcType="INTEGER" />
     <id column="shop_id" property="shopId" jdbcType="INTEGER" />
   </resultMap>
-  <delete id="deleteById" parameterType="team.kirohuji.OrderManagerSystem.entity.GoodsHasShopKey" >
+  <delete id="deleteById" parameterType="team.kirohuji.OrderManagerSystem.entity.GoodsHasShop" >
     delete from goods_has_shop
     where goods_id = #{goodsId,jdbcType=INTEGER}
       and shop_id = #{shopId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="team.kirohuji.OrderManagerSystem.entity.GoodsHasShopKey" >
+  <insert id="insert" parameterType="team.kirohuji.OrderManagerSystem.entity.GoodsHasShop" >
     insert into goods_has_shop (goods_id, shop_id)
     values (#{goodsId,jdbcType=INTEGER}, #{shopId,jdbcType=INTEGER})
   </insert>
