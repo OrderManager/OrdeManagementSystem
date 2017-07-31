@@ -2,27 +2,24 @@ package team.kirohuji.OrderManagerSystem.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Iterator;
-import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
 import team.kirohuji.OrderManagerSystem.dao.imp.InstructImp;
 import team.kirohuji.OrderManagerSystem.entity.CommandManager;
 import team.kirohuji.OrderManagerSystem.entity.CommandType;
-import team.kirohuji.OrderManagerSystem.entity.Container;
 import team.kirohuji.OrderManagerSystem.entity.Instruct;
 import team.kirohuji.OrderManagerSystem.entity.User;
 import team.kirohuji.OrderManagerSystem.util.CommandTypeJudge;
+import team.kirohuji.OrderManagerSystem.util.Errors;
 import team.kirohuji.OrderManagerSystem.util.JdbcUtil;
 import team.kirohuji.OrderManagerSystem.util.OrderManagerConsole;
 
 public class OrderManagerLauncher {
-
-	private Container<Instruct> container = null;
 	private Instruct instruct = null;
 	private User player = null;
 	private JdbcUtil jdbc = null;
+	private Errors erros=null;
 	private CommandManager systemCommandManager = null;
 	private CommandManager consoleCommandManager = null;
 	private SqlSession sqlSession;
@@ -34,12 +31,12 @@ public class OrderManagerLauncher {
 
 	public boolean execute() throws SQLException {
 		load();
-		OrderManagerConsole.print("Welcome to play this game");
-		OrderManagerConsole.println("Nice to meet you,You can type 'help' for usage");
+		OrderManagerConsole.print("OrderManagerSystem version 1.0");
+		OrderManagerConsole.println("Nice to meet you,Enter \"help\" for usage hints.");
 		OrderManagerConsole.println("If no account please register first");
-		OrderManagerConsole.printUsage(container,OrderManagerConsole.SYSTEMCOMMAND);
+	//	OrderManagerConsole.printUsage(container,OrderManagerConsole.SYSTEMCOMMAND);
 		while (true) {
-			instruct = EncapsulationCommand(OrderManagerConsole.askUserInput("cmd> "));
+			instruct = EncapsulationCommand(OrderManagerConsole.askUserInput(OrderManagerConsole.COMMANDLINE+"> "));
 			if (instruct != null) {
 				if (instruct.getName().equalsIgnoreCase("exit")){
 					sqlSession.close();
@@ -96,26 +93,14 @@ public class OrderManagerLauncher {
 		CommandManagerProducer cmp = new CommandManagerProducer();
 		jdbc = loadBeSuper();
 		sqlSession = jdbc.getSqlSessionFactory().openSession();
-		SetContainer();
 		systemCommandManager = cmp.getFactory("System").getInstanceSystemManager();
 		consoleCommandManager = cmp.getFactory("Console").getInstanceConsoleManager();
-		systemCommandManager.setInstructSet(container);
-		consoleCommandManager.setInstructSet(container);
 		commandTypeJudge = new CommandTypeJudge();
-		systemCommandManager.setUserInstructSet(container);
+		erros=Errors.getInstance();
 	}
 
 	private Instruct EncapsulationCommand(String command) {
-		return new InstructImp().selectByName(command);
+		return new InstructImp().selectByName(command.toLowerCase());
 	}
 
-	private void SetContainer() {
-		container = new Container<Instruct>();
-		List<Instruct> lists = new InstructImp().selectAll();
-		Iterator<Instruct> it = lists.iterator();
-		while (it.hasNext()) {
-			Instruct instruct = it.next();
-			container.insert(instruct);
-		}
-	}
 }

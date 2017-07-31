@@ -1,6 +1,9 @@
 package team.kirohuji.OrderManagerSystem.dao;
 
+import java.util.ArrayList;
+
 import team.kirohuji.OrderManagerSystem.entity.Goods;
+import team.kirohuji.OrderManagerSystem.entity.ShopAndGoods;
 
 public interface IGoods {
 	int deleteByName(String name);
@@ -14,4 +17,5 @@ public interface IGoods {
 	int updateById(Goods record);
 
 	int selectId();
+	ArrayList<Goods> selectAllByShopName(String address);
 }

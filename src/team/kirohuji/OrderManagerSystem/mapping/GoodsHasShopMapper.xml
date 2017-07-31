@@ -1,18 +1,44 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="team.kirohuji.OrderManagerSystem.mapping.GoodsHasShopMapper" >
-  <resultMap id="BaseResultMap" type="team.kirohuji.OrderManagerSystem.entity.GoodsHasShop" >
-    <id column="goods_id" property="goodsId" jdbcType="INTEGER" />
-    <id column="shop_id" property="shopId" jdbcType="INTEGER" />
-  </resultMap>
-  <delete id="deleteById" parameterType="team.kirohuji.OrderManagerSystem.entity.GoodsHasShop" >
-    delete from goods_has_shop
-    where goods_id = #{goodsId,jdbcType=INTEGER}
-      and shop_id = #{shopId,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="team.kirohuji.OrderManagerSystem.entity.GoodsHasShop" >
-    insert into goods_has_shop (goods_id, shop_id)
-    values (#{goodsId,jdbcType=INTEGER}, #{shopId,jdbcType=INTEGER})
-  </insert>
-
+<mapper namespace="team.kirohuji.OrderManagerSystem.mapping.GoodsHasShopMapper">
+	<resultMap id="BaseResultMap"
+		type="team.kirohuji.OrderManagerSystem.entity.GoodsHasShop">
+		<id column="goods_id" property="goodsId" jdbcType="INTEGER" />
+		<id column="shop_id" property="shopId" jdbcType="INTEGER" />
+	</resultMap>
+	<delete id="deleteById"
+		parameterType="team.kirohuji.OrderManagerSystem.entity.GoodsHasShop">
+		delete from goods_has_shop
+		where goods_id =
+		#{goodsId,jdbcType=INTEGER}
+		and shop_id = #{shopId,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert"
+		parameterType="team.kirohuji.OrderManagerSystem.entity.GoodsHasShop">
+		insert into goods_has_shop (goods_id, shop_id)
+		values
+		(#{goodsId,jdbcType=INTEGER}, #{shopId,jdbcType=INTEGER})
+	</insert>
+	<select id="selectShopAndAllGoods" parameterType="String"
+		resultMap="ShopAndGoodsResultMap">
+		select s.name as shop_name,g.name as goods_name,g.price,g.inventry
+		from goods g join goods_has_shop
+		ghs on ghs.goods_id=g.id join shop s
+		on s.id=ghs.shop_id where s.name=#{name} and g.is_delete=0;
+	</select>
+		<select id="selectAllShopAndAllGoods" 
+		resultMap="ShopAndGoodsResultMap">
+		select s.name as shop_name,g.name as goods_name,g.price,g.inventry
+		from goods g join goods_has_shop
+		ghs on ghs.goods_id=g.id join shop s
+		on s.id=ghs.shop_id;
+	</select>
+	<resultMap id="ShopAndGoodsResultMap"
+		type="team.kirohuji.OrderManagerSystem.entity.ShopAndGoods">
+		<id column="shop_name" property="shopName" jdbcType="VARCHAR" />
+		<id column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+		<id column="price" property="price" jdbcType="DOUBLE" />
+		<id column="inventry" property="inventry" jdbcType="INTEGER" />
+		<id column="is_delete" property="isDelete" jdbcType="INTEGER" />
+	</resultMap>
 </mapper>

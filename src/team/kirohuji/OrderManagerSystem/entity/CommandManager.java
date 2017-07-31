@@ -8,13 +8,16 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
-public interface CommandManager{
+import team.kirohuji.OrderManagerSystem.util.Errors;
+
+public interface CommandManager {
 	public User execute(User player);
+
 	public User execute(CommandType buyer);
+
 	public void getConsoleCommand(Instruct instruct) throws ClassNotFoundException, IOException, SQLException;
+
 	public void getSystemCommand(Instruct instruct) throws ClassNotFoundException, IOException;
-	public void setInstructSet(Container container);
-	public Container<Instruct> getContainer();
+
 	public void execute(User player, CommandType buyer);
-	void setUserInstructSet(Container container);
 }

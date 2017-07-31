@@ -1,5 +1,6 @@
 package team.kirohuji.OrderManagerSystem.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import team.kirohuji.OrderManagerSystem.entity.Shop;
@@ -20,4 +21,6 @@ public interface IShop {
 	public void updateByNameOpen(String name);
 
 	public void updateByNameClose(String name);
+	
+	ArrayList<Shop> selectAllByUserId(Integer integer);
 }

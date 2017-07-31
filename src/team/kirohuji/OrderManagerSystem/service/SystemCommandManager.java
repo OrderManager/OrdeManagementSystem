@@ -15,17 +15,17 @@ import team.kirohuji.OrderManagerSystem.entity.CommandType;
 import team.kirohuji.OrderManagerSystem.entity.Container;
 import team.kirohuji.OrderManagerSystem.entity.Instruct;
 import team.kirohuji.OrderManagerSystem.entity.User;
+import team.kirohuji.OrderManagerSystem.util.Errors;
 import team.kirohuji.OrderManagerSystem.util.JdbcUtil;
 import team.kirohuji.OrderManagerSystem.util.OrderManagerConsole;
 
 public class SystemCommandManager implements CommandManager {
-	private Container<Instruct> container = new Container<>();
-	private Container<Instruct> userContainer= new Container<>();
 	private Instruct instruct;
 	private JdbcUtil jdbc;
 	private Command command;
 	private User player;
 	private Connection conn = null;
+	private Errors errors=Errors.getInstance();
 
 	@Override
 	public void execute(User player, CommandType buyer) {
@@ -65,10 +65,10 @@ public class SystemCommandManager implements CommandManager {
 			case "help":
 				command = c -> {
 					if (player == null) {
-						OrderManagerConsole.printUsage(container);
+						OrderManagerConsole.printUsage(OrderManagerConsole.SYSTEMCOMMAND);
 					} else {
-						OrderManagerConsole.printUsage(container);
-						OrderManagerConsole.printUsage(userContainer, player.getRuleId());
+						OrderManagerConsole.printUsage(OrderManagerConsole.SYSTEMCOMMAND);
+						OrderManagerConsole.printUsage(player.getRuleId(),player);
 					}
 					return true;
 				};
@@ -147,6 +147,16 @@ public class SystemCommandManager implements CommandManager {
 					return true;
 				};
 				break;
+			case "status":
+				command = c -> {
+					if(player==null){
+						System.out.println("You haven't logged in yet");
+					}else{
+						System.out.println(player);
+					}
+					return true;
+				};
+				break;
 			default:
 				command = c -> {
 					OrderManagerConsole.println("Invalid command.See the user as below:\n");
@@ -155,34 +165,6 @@ public class SystemCommandManager implements CommandManager {
 				break;
 			}
 		}
-	}
-
-	@Override
-	public void setInstructSet(Container container) {
-		Iterator<Instruct> it = container.iterator();
-		while (it.hasNext()) {
-			Instruct instruct = it.next();
-			if (instruct.getRuleId() == OrderManagerConsole.SYSTEMCOMMAND) {
-				this.container.insert(instruct);
-			}
-		}
-
-	}
-
-	@Override
-	public void setUserInstructSet(Container container) {
-		Iterator<Instruct> it = container.iterator();
-		while (it.hasNext()) {
-			Instruct instruct = it.next();
-			if (instruct.getRuleId() != OrderManagerConsole.SYSTEMCOMMAND) {
-				this.userContainer.insert(instruct);
-			}
-		}
-	}
-
-	@Override
-	public Container<Instruct> getContainer() {
-		return container;
 	}
 
 }

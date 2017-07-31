@@ -1,5 +1,8 @@
 package team.kirohuji.OrderManagerSystem.entity;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class User {
 	private Integer id;
 
@@ -97,4 +100,11 @@ public class User {
 	public void setCode(String code) {
 		this.code = code;
 	}
+
+	@Override
+	public String toString() {
+		return "User [name=" + name + ", account=" + code + ", phone=" + phone + ", money="
+				+ money +",NowTime ="+new SimpleDateFormat("yyyy-MM-dd-HH-mm").format(new Date())+"]";
+	}
+	
 }

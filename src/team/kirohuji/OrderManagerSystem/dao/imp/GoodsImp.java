@@ -1,12 +1,13 @@
 package team.kirohuji.OrderManagerSystem.dao.imp;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
 import team.kirohuji.OrderManagerSystem.dao.IGoods;
 import team.kirohuji.OrderManagerSystem.entity.Goods;
-import team.kirohuji.OrderManagerSystem.entity.Instruct;
 import team.kirohuji.OrderManagerSystem.util.JdbcUtil;
 
 public class GoodsImp implements IGoods{
@@ -64,6 +65,14 @@ public class GoodsImp implements IGoods{
 		sqlSession.commit();
 		sqlSession.close();
 		return rule;
+	}
+
+	public ArrayList<Goods> selectAllByShopName(String address) {
+		sqlSession = jdbc.getSqlSessionFactory().openSession();
+		List<Goods> rule=sqlSession.selectList("team.kirohuji.OrderManagerSystem.mapping.GoodsMapper.selectAllByShopName", address);
+		sqlSession.commit();
+		sqlSession.close();
+		return (ArrayList<Goods>) rule;
 	}
 
 

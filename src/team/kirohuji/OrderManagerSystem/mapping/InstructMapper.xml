@@ -17,6 +17,12 @@
 		from instruct
 		where id = #{id,jdbcType=INTEGER}
 	</select>
+		<select id="selectByRuleId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from instruct
+		where rule_id = #{id,jdbcType=INTEGER}
+	</select>
 	<select id="selectByName" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />

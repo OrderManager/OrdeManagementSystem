@@ -57,6 +57,14 @@ public class ShopImp implements IShop{
 		return (ArrayList<Shop>) shops;
 	}
 	@Override
+	public ArrayList<Shop> selectAllByUserId(Integer integer) {
+		sqlSession = jdbc.getSqlSessionFactory().openSession();
+		List<Shop> shops=sqlSession.selectList("team.kirohuji.OrderManagerSystem.mapping.ShopMapper.selectAllByUserId",integer);
+		sqlSession.commit();
+		sqlSession.close();
+		return (ArrayList<Shop>) shops;
+	}
+	@Override
 	public void updateByNameOpen(String name) {
 		sqlSession = jdbc.getSqlSessionFactory().openSession();
 		sqlSession.update("team.kirohuji.OrderManagerSystem.mapping.ShopMapper.updateByNameOpen", name);
@@ -67,7 +75,7 @@ public class ShopImp implements IShop{
 	@Override
 	public void updateByNameClose(String name) {
 		sqlSession = jdbc.getSqlSessionFactory().openSession();
-		sqlSession.update("team.kirohuji.OrderManagerSystem.mapping.InstructMapper.updateByNameClose", name);
+		sqlSession.update("team.kirohuji.OrderManagerSystem.mapping.ShopMapper.updateByNameClose", name);
 		sqlSession.commit();
 		sqlSession.close();
 		
@@ -80,5 +88,4 @@ public class ShopImp implements IShop{
 		sqlSession.close();
 		return temp;
 	}
-
 }

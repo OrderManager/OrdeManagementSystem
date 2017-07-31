@@ -1,10 +1,8 @@
 package team.kirohuji.OrderManagerSystem.service;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import team.kirohuji.OrderManagerSystem.dao.imp.GoodsHasShopImp;
 import team.kirohuji.OrderManagerSystem.dao.imp.GoodsImp;
@@ -12,23 +10,22 @@ import team.kirohuji.OrderManagerSystem.dao.imp.ShopImp;
 import team.kirohuji.OrderManagerSystem.entity.Command;
 import team.kirohuji.OrderManagerSystem.entity.CommandManager;
 import team.kirohuji.OrderManagerSystem.entity.CommandType;
-import team.kirohuji.OrderManagerSystem.entity.Container;
 import team.kirohuji.OrderManagerSystem.entity.Goods;
 import team.kirohuji.OrderManagerSystem.entity.GoodsHasShop;
 import team.kirohuji.OrderManagerSystem.entity.Instruct;
 import team.kirohuji.OrderManagerSystem.entity.Shop;
+import team.kirohuji.OrderManagerSystem.entity.ShopAndGoods;
 import team.kirohuji.OrderManagerSystem.entity.User;
+import team.kirohuji.OrderManagerSystem.util.Errors;
 import team.kirohuji.OrderManagerSystem.util.JdbcUtil;
 import team.kirohuji.OrderManagerSystem.util.OrderManagerConsole;
 
 public class ConsoleCommandManager implements CommandManager {
-	// private static volatile CommandManager commandManager;
-	private Container<Instruct> container = null;
 	private Instruct instruct = null;
 	private JdbcUtil jdbc = null;
 	private Command command = null;
 	private User player = null;
-	private Connection conn = null;
+	private Errors errors=Errors.getInstance();
 
 	public User execute(User player) {
 		this.player = player;
@@ -37,15 +34,15 @@ public class ConsoleCommandManager implements CommandManager {
 	}
 
 	@Override
-	public User execute(CommandType buyer) {
+	public User execute(CommandType type) {
 		// TODO Auto-generated method stub
 		return player;
 	}
 
 	@Override
-	public void execute(User player, CommandType buyer) {
+	public void execute(User player, CommandType type) {
 		this.player = player;
-		command.dispose(buyer);
+		command.dispose(type);
 	}
 
 	@Override
@@ -62,12 +59,12 @@ public class ConsoleCommandManager implements CommandManager {
 					String shopName = OrderManagerConsole.askUserInput("Please enter your shop's name\nname>");
 					GoodsImp goodsUtil = new GoodsImp();
 					GoodsHasShopImp goodsHasShopUtil = new GoodsHasShopImp();
-					int id=goodsUtil.selectId()+1;
-					Goods goods=new Goods(id, Double.valueOf(price),goodName, content, 0, Integer.valueOf(inventry));
+					int id = goodsUtil.selectId() + 1;
+					Goods goods = new Goods(id, Double.valueOf(price), goodName, content, 0, Integer.valueOf(inventry));
 					if (goodsUtil.insert(goods) > 0) {
-						ShopImp shopUtil=new ShopImp();
-						Shop shop=shopUtil.selectByName(shopName);
-						GoodsHasShop goodsHasShop=new GoodsHasShop(id, shop.getId());
+						ShopImp shopUtil = new ShopImp();
+						Shop shop = shopUtil.selectByName(shopName);
+						GoodsHasShop goodsHasShop = new GoodsHasShop(id, shop.getId());
 						goodsHasShopUtil.insert(goodsHasShop);
 						OrderManagerConsole.println("success addGoods");
 					}
@@ -80,7 +77,7 @@ public class ConsoleCommandManager implements CommandManager {
 					String shopName = OrderManagerConsole.askUserInput("Please enter your shop's name\nname>");
 					GoodsImp goodsUtil = new GoodsImp();
 					if (goodsUtil.deleteByName(goodName) > 0) {
-						
+
 						OrderManagerConsole.println("success deleteGoods");
 					}
 					return true;
@@ -102,15 +99,27 @@ public class ConsoleCommandManager implements CommandManager {
 					return true;
 				};
 				break;
-			case "showgoods":
+
+			case "showyougoods":
 				command = c -> {
+					String name = OrderManagerConsole
+							.askUserInput("Please enter your shop's name:Not input represents all\nshopName>");
+					GoodsHasShopImp goodsHasShopUtil = new GoodsHasShopImp();
+					if (name.equals("")) {
+						ArrayList<ShopAndGoods> lists = goodsHasShopUtil.selectAllShopAndGoods();
+						lists.stream().forEach(System.out::println);
+					} else {
+						ArrayList<ShopAndGoods> lists = goodsHasShopUtil.selectShopAndAllGoods(name);
+						lists.stream().forEach(System.out::println);
+					}
+
 					return false;
 				};
 				break;
-			case "showshop":
+			case "showyoushop":
 				command = c -> {
 					ShopImp shopUtil = new ShopImp();
-					ArrayList<Shop> shops = shopUtil.selectAll();
+					ArrayList<Shop> shops = shopUtil.selectAllByUserId(player.getId());
 					shops.stream().filter(s -> s.getIsOpen() != 0).forEach(System.out::println);
 					return true;
 				};
@@ -119,17 +128,37 @@ public class ConsoleCommandManager implements CommandManager {
 				break;
 			}
 		} else {
-			switch (instruct.getName()) {
+			switch (instruct.getName().toLowerCase()) {
+			case "intoshop":
+				command = c -> {
+					String name = OrderManagerConsole.askUserInput("Please enter your intoShop's name\nshopName>");
+					player.setAddress(name);
+					OrderManagerConsole.COMMANDLINE = "in " + name;
+					return true;
+				};
+				break;
+			case "outshop":
+				command = c -> {
+					player.setAddress("");
+					OrderManagerConsole.COMMANDLINE = OrderManagerConsole.CMD;
+					OrderManagerConsole.println("You left the store");
+					return true;
+				};
+				break;
 			case "buy":
 				command = c -> {
 					return false;
 				};
 				break;
-			 case "showgoods":
-			 command = c -> {
-			 return false;
-			 };
-			 break;
+			case "showgoods":
+				command = c -> {
+					GoodsImp goodUtil=new GoodsImp();
+					ArrayList<Goods> lists=goodUtil.selectAllByShopName(player.getAddress());
+					lists.stream().forEach(System.out::println);
+
+					return false;
+				};
+				break;
 			case "showshop":
 				command = c -> {
 					ShopImp shopUtil = new ShopImp();
@@ -156,28 +185,4 @@ public class ConsoleCommandManager implements CommandManager {
 	public void getSystemCommand(Instruct instruct) throws ClassNotFoundException, IOException {
 
 	}
-
-	@Override
-	public void setInstructSet(Container container) {
-		Iterator<Instruct> it = container.iterator();
-		if (it.hasNext()) {
-			Instruct instruct = it.next();
-			if (instruct.getRuleId() != OrderManagerConsole.SYSTEMCOMMAND) {
-				this.container.insert(instruct);
-			}
-		}
-	}
-
-	@Override
-	public Container<Instruct> getContainer() {
-		// TODO Auto-generated method stub
-		return container;
-	}
-
-	@Override
-	public void setUserInstructSet(Container container) {
-		// TODO Auto-generated method stub
-
-	}
-
 }
