@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<properties resource="conn.properties">
+		<property name="jdbc" value="com.mysql.jdbc.Driver" />
+	</properties>
+	<settings>
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+		<setting name="logImpl" value="LOG4J"/>
+	</settings>
+	 <typeAliases>
+	 <typeAlias type="t20170726.User" alias="User"/>
+	 </typeAliases>
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />  <!-- MANAGED -->
+			<!-- 配置数据库连接信息 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="${jdbc}" />
+				<property name="url" value="jdbc:mysql://localhost:3306/ordermanager" />
+				<property name="username" value="root" />
+				<property name="password" value="root" />
+			</dataSource>
+		</environment>
+	</environments>
+
+
+	<mappers>
+
+		<mapper resource="t20170726/userMapper.xml" />
+		<mapper class="t20170726.BlogMapper" />
+	</mappers>
+
+</configuration>
+

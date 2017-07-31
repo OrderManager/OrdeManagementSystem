@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team.kirohuji.OrderManagerSystem.entity.dao.RuleMapper" >
+  <resultMap id="BaseResultMap" type="team.kirohuji.OrderManagerSystem.entity.Rule" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, content
+  </sql>
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from rule
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from rule
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="team.kirohuji.OrderManagerSystem.entity.Rule" >
+    insert into rule (id, name, content
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateById" parameterType="team.kirohuji.OrderManagerSystem.entity.Rule" >
+    update rule
+    set name = #{name,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
