@@ -4,15 +4,20 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import team.kirohuji.OrderManagerSystem.dao.imp.BillImp;
 import team.kirohuji.OrderManagerSystem.dao.imp.GoodsHasShopImp;
 import team.kirohuji.OrderManagerSystem.dao.imp.GoodsImp;
+import team.kirohuji.OrderManagerSystem.dao.imp.ItemImp;
 import team.kirohuji.OrderManagerSystem.dao.imp.ShopImp;
+import team.kirohuji.OrderManagerSystem.dao.imp.UserImp;
+import team.kirohuji.OrderManagerSystem.entity.Bill;
 import team.kirohuji.OrderManagerSystem.entity.Command;
 import team.kirohuji.OrderManagerSystem.entity.CommandManager;
 import team.kirohuji.OrderManagerSystem.entity.CommandType;
 import team.kirohuji.OrderManagerSystem.entity.Goods;
 import team.kirohuji.OrderManagerSystem.entity.GoodsHasShop;
 import team.kirohuji.OrderManagerSystem.entity.Instruct;
+import team.kirohuji.OrderManagerSystem.entity.Item;
 import team.kirohuji.OrderManagerSystem.entity.Shop;
 import team.kirohuji.OrderManagerSystem.entity.ShopAndGoods;
 import team.kirohuji.OrderManagerSystem.entity.User;
@@ -25,7 +30,7 @@ public class ConsoleCommandManager implements CommandManager {
 	private JdbcUtil jdbc = null;
 	private Command command = null;
 	private User player = null;
-	private Errors errors=Errors.getInstance();
+	private Errors errors = Errors.getInstance();
 
 	public User execute(User player) {
 		this.player = player;
@@ -147,13 +152,42 @@ public class ConsoleCommandManager implements CommandManager {
 				break;
 			case "buy":
 				command = c -> {
-					return false;
+					String goodsName = OrderManagerConsole.askUserInput("Please enter your goods's name\nname>");
+					GoodsImp goodsUtil = new GoodsImp();
+					Goods goods = goodsUtil.selectByName(goodsName);
+					if (player.getMoney() - goods.getPrice() > 0) {
+						ItemImp itemUtil = new ItemImp();
+						Item item=new Item();
+						item.setGoodsId(goods.getId());
+						item.setId(itemUtil.selectId()+1);
+						item.setiId(String.valueOf(System.currentTimeMillis()));
+						item.setNumber(1);
+						item.setStatus(1);
+						if(itemUtil.insert(item)>0){
+							OrderManagerConsole.println(item+goods.getName()+"]");
+						};
+						int id = goodsUtil.selectId() + 1;
+						Bill bill = new Bill(id, String.valueOf(System.currentTimeMillis()),
+								String.valueOf(goods.getPrice()), "0", player.getId(), item.getId(), "buy");
+						BillImp billUtil = new BillImp();
+						if (billUtil.insert(bill) > 0) {
+							player.setMoney(player.getMoney() - goods.getPrice());
+							UserImp userUtil = new UserImp();
+							userUtil.updateMoney(player);
+							OrderManagerConsole.println("success buy");
+						}
+						return true;
+					} else {
+						OrderManagerConsole.println("don't have enough money");
+						return false;
+					}
+
 				};
 				break;
 			case "showgoods":
 				command = c -> {
-					GoodsImp goodUtil=new GoodsImp();
-					ArrayList<Goods> lists=goodUtil.selectAllByShopName(player.getAddress());
+					GoodsImp goodUtil = new GoodsImp();
+					ArrayList<Goods> lists = goodUtil.selectAllByShopName(player.getAddress());
 					lists.stream().forEach(System.out::println);
 
 					return false;

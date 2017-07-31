@@ -19,4 +19,6 @@ public interface IUser {
 	String selectByCodeGainRule(User user);
 
 	User selectByCodeGainStatus(String code);
+
+	int updateMoney(User player);
 }

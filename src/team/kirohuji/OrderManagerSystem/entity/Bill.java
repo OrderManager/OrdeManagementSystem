@@ -1,73 +1,89 @@
 package team.kirohuji.OrderManagerSystem.entity;
 
 public class Bill {
-    private Integer id;
+	private Integer id;
 
-    private String uId;
+	private String uId;
 
-    private String totalNumber;
+	private String totalNumber;
 
-    private String ordercol;
+	private String ordercol;
 
-    private Integer userId;
+	private Integer userId;
 
-    private Integer itemId;
+	private Integer itemId;
 
-    private String status;
+	private String status;
 
-    public Integer getId() {
-        return id;
-    }
+	public Bill() {
+		super();
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public Bill(Integer id, String uId, String totalNumber, String ordercol, Integer userId, Integer itemId,
+			String status) {
+		super();
+		this.id = id;
+		this.uId = uId;
+		this.totalNumber = totalNumber;
+		this.ordercol = ordercol;
+		this.userId = userId;
+		this.itemId = itemId;
+		this.status = status;
+	}
 
-    public String getuId() {
-        return uId;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setuId(String uId) {
-        this.uId = uId == null ? null : uId.trim();
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public String getTotalNumber() {
-        return totalNumber;
-    }
+	public String getuId() {
+		return uId;
+	}
 
-    public void setTotalNumber(String totalNumber) {
-        this.totalNumber = totalNumber == null ? null : totalNumber.trim();
-    }
+	public void setuId(String uId) {
+		this.uId = uId == null ? null : uId.trim();
+	}
 
-    public String getOrdercol() {
-        return ordercol;
-    }
+	public String getTotalNumber() {
+		return totalNumber;
+	}
 
-    public void setOrdercol(String ordercol) {
-        this.ordercol = ordercol == null ? null : ordercol.trim();
-    }
+	public void setTotalNumber(String totalNumber) {
+		this.totalNumber = totalNumber == null ? null : totalNumber.trim();
+	}
 
-    public Integer getUserId() {
-        return userId;
-    }
+	public String getOrdercol() {
+		return ordercol;
+	}
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
+	public void setOrdercol(String ordercol) {
+		this.ordercol = ordercol == null ? null : ordercol.trim();
+	}
 
-    public Integer getItemId() {
-        return itemId;
-    }
+	public Integer getUserId() {
+		return userId;
+	}
 
-    public void setItemId(Integer itemId) {
-        this.itemId = itemId;
-    }
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
 
-    public String getStatus() {
-        return status;
-    }
+	public Integer getItemId() {
+		return itemId;
+	}
 
-    public void setStatus(String status) {
-        this.status = status == null ? null : status.trim();
-    }
+	public void setItemId(Integer itemId) {
+		this.itemId = itemId;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status == null ? null : status.trim();
+	}
 }

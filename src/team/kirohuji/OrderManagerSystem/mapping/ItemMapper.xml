@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="team.kirohuji.OrderManagerSystem.entity.dao.ItemMapper" >
+<mapper namespace="team.kirohuji.OrderManagerSystem.mapping.ItemMapper" >
   <resultMap id="BaseResultMap" type="team.kirohuji.OrderManagerSystem.entity.Item" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="number" property="number" jdbcType="INTEGER" />
     <result column="goods_id" property="goodsId" jdbcType="INTEGER" />
     <result column="i_id" property="iId" jdbcType="VARCHAR" />
-    <result column="item_cart_id" property="itemCartId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, status, number, goods_id, i_id, item_cart_id
@@ -18,16 +17,21 @@
     from item
     where id = #{id,jdbcType=INTEGER}
   </select>
+   <select id="selectId" resultType="int" >
+    select 
+    count(*)
+    from item
+  </select>
   <delete id="deleteById" parameterType="java.lang.Integer" >
     delete from item
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="team.kirohuji.OrderManagerSystem.entity.Item" >
     insert into item (id, status, number, 
-      goods_id, i_id, item_cart_id
+      goods_id, i_id
       )
     values (#{id,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{number,jdbcType=INTEGER}, 
-      #{goodsId,jdbcType=INTEGER}, #{iId,jdbcType=VARCHAR}, #{itemCartId,jdbcType=INTEGER}
+      #{goodsId,jdbcType=INTEGER}, #{iId,jdbcType=VARCHAR}
       )
   </insert>
   <update id="updateById" parameterType="team.kirohuji.OrderManagerSystem.entity.Item" >
@@ -36,7 +40,6 @@
       number = #{number,jdbcType=INTEGER},
       goods_id = #{goodsId,jdbcType=INTEGER},
       i_id = #{iId,jdbcType=VARCHAR},
-      item_cart_id = #{itemCartId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

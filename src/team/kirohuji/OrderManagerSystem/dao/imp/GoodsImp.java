@@ -10,7 +10,7 @@ import team.kirohuji.OrderManagerSystem.dao.IGoods;
 import team.kirohuji.OrderManagerSystem.entity.Goods;
 import team.kirohuji.OrderManagerSystem.util.JdbcUtil;
 
-public class GoodsImp implements IGoods{
+public class GoodsImp implements IGoods {
 	private JdbcUtil jdbc = null;
 	private SqlSession sqlSession;
 
@@ -32,7 +32,7 @@ public class GoodsImp implements IGoods{
 	@Override
 	public int insert(Goods record) {
 		sqlSession = jdbc.getSqlSessionFactory().openSession();
-		int rule=sqlSession.insert("team.kirohuji.OrderManagerSystem.mapping.GoodsMapper.insert", record);
+		int rule = sqlSession.insert("team.kirohuji.OrderManagerSystem.mapping.GoodsMapper.insert", record);
 		sqlSession.commit();
 		sqlSession.close();
 		return rule;
@@ -53,7 +53,7 @@ public class GoodsImp implements IGoods{
 	@Override
 	public int selectId() {
 		sqlSession = jdbc.getSqlSessionFactory().openSession();
-		int id=sqlSession.selectOne("team.kirohuji.OrderManagerSystem.mapping.GoodsMapper.selectId");
+		int id = sqlSession.selectOne("team.kirohuji.OrderManagerSystem.mapping.GoodsMapper.selectId");
 		sqlSession.commit();
 		sqlSession.close();
 		return id;
@@ -61,7 +61,7 @@ public class GoodsImp implements IGoods{
 
 	public int deleteByName(String name) {
 		sqlSession = jdbc.getSqlSessionFactory().openSession();
-		int rule=sqlSession.update("team.kirohuji.OrderManagerSystem.mapping.GoodsMapper.deleteByName", name);
+		int rule = sqlSession.update("team.kirohuji.OrderManagerSystem.mapping.GoodsMapper.deleteByName", name);
 		sqlSession.commit();
 		sqlSession.close();
 		return rule;
@@ -69,12 +69,20 @@ public class GoodsImp implements IGoods{
 
 	public ArrayList<Goods> selectAllByShopName(String address) {
 		sqlSession = jdbc.getSqlSessionFactory().openSession();
-		List<Goods> rule=sqlSession.selectList("team.kirohuji.OrderManagerSystem.mapping.GoodsMapper.selectAllByShopName", address);
+		List<Goods> rule = sqlSession
+				.selectList("team.kirohuji.OrderManagerSystem.mapping.GoodsMapper.selectAllByShopName", address);
 		sqlSession.commit();
 		sqlSession.close();
 		return (ArrayList<Goods>) rule;
 	}
 
-
+	public Goods selectByName(String goodsName) {
+		sqlSession = jdbc.getSqlSessionFactory().openSession();
+		Goods goods = sqlSession
+				.selectOne("team.kirohuji.OrderManagerSystem.mapping.GoodsMapper.selectByName", goodsName);
+		sqlSession.commit();
+		sqlSession.close();
+		return goods;
+	}
 
 }

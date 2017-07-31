@@ -8,6 +8,6 @@ public interface IBill {
     int insert(Bill record);
 
     Bill selectById(Integer id);
-
+    int selectId();
     int updateById(Bill record);
 }

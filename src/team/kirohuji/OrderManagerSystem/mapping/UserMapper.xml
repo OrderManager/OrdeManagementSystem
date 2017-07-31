@@ -78,4 +78,8 @@
 		#{ruleId,jdbcType=INTEGER}
 		where id = #{id,jdbcType=INTEGER}
 	</update>
+		<update id="updateMoney" parameterType="team.kirohuji.OrderManagerSystem.entity.User">
+		update user set money=#{money,jdbcType=DOUBLE}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
 </mapper>

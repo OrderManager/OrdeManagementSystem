@@ -18,4 +18,6 @@ public interface IGoods {
 
 	int selectId();
 	ArrayList<Goods> selectAllByShopName(String address);
+	
+    Goods selectByName(String goodsName);
 }

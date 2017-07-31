@@ -1,63 +1,59 @@
 package team.kirohuji.OrderManagerSystem.entity;
 
 public class Item {
-    private Integer id;
+	private Integer id;
+	
+	private String iId;
+	
+	private Integer status;
 
-    private Integer status;
+	private Integer number;
 
-    private Integer number;
+	private Integer goodsId;
 
-    private Integer goodsId;
+	public Integer getId() {
+		return id;
+	}
 
-    private String iId;
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    private Integer itemCartId;
+	public Integer getStatus() {
+		return status;
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public Integer getNumber() {
+		return number;
+	}
 
-    public Integer getStatus() {
-        return status;
-    }
+	public void setNumber(Integer number) {
+		this.number = number;
+	}
 
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
+	public Integer getGoodsId() {
+		return goodsId;
+	}
 
-    public Integer getNumber() {
-        return number;
-    }
+	public void setGoodsId(Integer goodsId) {
+		this.goodsId = goodsId;
+	}
 
-    public void setNumber(Integer number) {
-        this.number = number;
-    }
+	public String getiId() {
+		return iId;
+	}
 
-    public Integer getGoodsId() {
-        return goodsId;
-    }
+	public void setiId(String iId) {
+		this.iId = iId == null ? null : iId.trim();
+	}
+	@Override
+	public String toString() {
+		return "Item [iId=" + iId + ", status=" + status + ", number=" + number+",";
+	}
 
-    public void setGoodsId(Integer goodsId) {
-        this.goodsId = goodsId;
-    }
 
-    public String getiId() {
-        return iId;
-    }
-
-    public void setiId(String iId) {
-        this.iId = iId == null ? null : iId.trim();
-    }
-
-    public Integer getItemCartId() {
-        return itemCartId;
-    }
-
-    public void setItemCartId(Integer itemCartId) {
-        this.itemCartId = itemCartId;
-    }
 }

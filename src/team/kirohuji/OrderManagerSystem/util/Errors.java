@@ -28,4 +28,11 @@ public class Errors {
 		
 		return false;
 	}
+	public boolean NullPointerProcessing(Object object){
+		if(object==null){
+			return false;
+		}else{
+			return true;
+		}
+	}
 }

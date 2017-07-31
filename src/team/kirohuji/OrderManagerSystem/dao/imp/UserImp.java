@@ -88,5 +88,14 @@ public class UserImp implements IUser{
 		return id;
 	}
 
+	public int updateMoney(User player) {
+		// TODO Auto-generated method stub
+		sqlSession = jdbc.getSqlSessionFactory().openSession();
+		int id=sqlSession.update("team.kirohuji.OrderManagerSystem.mapping.UserMapper.updateMoney",player);
+		sqlSession.commit();
+		sqlSession.close();
+		return id;
+	}
+
 
 }

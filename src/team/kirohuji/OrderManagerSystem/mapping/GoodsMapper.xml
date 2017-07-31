@@ -18,6 +18,13 @@
 		from goods
 		where id = #{id,jdbcType=INTEGER}
 	</select>
+	<select id="selectByName" resultMap="BaseResultMap"
+		parameterType="String">
+		select
+		<include refid="Base_Column_List" />
+		from goods
+		where name = #{name,jdbcType=VARCHAR}
+	</select>
 	<select id="selectId" resultType="int">
 		select
 		count(*)
@@ -29,7 +36,8 @@
 		from goods g join goods_has_shop
 		ghs on
 		ghs.goods_id=g.id join shop s
-		on s.id=ghs.shop_id where s.name=#{address} and g.is_delete=0;
+		on
+		s.id=ghs.shop_id where s.name=#{address} and g.is_delete=0;
 	</select>
 	<delete id="deleteById" parameterType="java.lang.Integer">
 		delete from goods

@@ -1,44 +1,51 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="team.kirohuji.OrderManagerSystem.entity.dao.BillMapper" >
-  <resultMap id="BaseResultMap" type="team.kirohuji.OrderManagerSystem.entity.Bill" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="u_id" property="uId" jdbcType="VARCHAR" />
-    <result column="total_number" property="totalNumber" jdbcType="VARCHAR" />
-    <result column="ordercol" property="ordercol" jdbcType="VARCHAR" />
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="item_id" property="itemId" jdbcType="INTEGER" />
-    <result column="status" property="status" jdbcType="VARCHAR" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    id, u_id, total_number, ordercol, user_id, item_id, status
-  </sql>
-  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from bill
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteById" parameterType="java.lang.Integer" >
-    delete from bill
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="team.kirohuji.OrderManagerSystem.entity.Bill" >
-    insert into bill (id, u_id, total_number, 
-      ordercol, user_id, item_id, 
-      status)
-    values (#{id,jdbcType=INTEGER}, #{uId,jdbcType=VARCHAR}, #{totalNumber,jdbcType=VARCHAR}, 
-      #{ordercol,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, 
-      #{status,jdbcType=VARCHAR})
-  </insert>
-  <update id="updateById" parameterType="team.kirohuji.OrderManagerSystem.entity.Bill" >
-    update bill
-    set u_id = #{uId,jdbcType=VARCHAR},
-      total_number = #{totalNumber,jdbcType=VARCHAR},
-      ordercol = #{ordercol,jdbcType=VARCHAR},
-      user_id = #{userId,jdbcType=INTEGER},
-      item_id = #{itemId,jdbcType=INTEGER},
-      status = #{status,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+<mapper namespace="team.kirohuji.OrderManagerSystem.mapping.BillMapper">
+	<resultMap id="BaseResultMap" type="team.kirohuji.OrderManagerSystem.entity.Bill">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="u_id" property="uId" jdbcType="VARCHAR" />
+		<result column="total_number" property="totalNumber" jdbcType="VARCHAR" />
+		<result column="ordercol" property="ordercol" jdbcType="VARCHAR" />
+		<result column="user_id" property="userId" jdbcType="INTEGER" />
+		<result column="item_id" property="itemId" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, u_id, total_number, ordercol, user_id, item_id, status
+	</sql>
+	<select id="selectId" resultType="int">
+		select
+		count(*)
+		from bill;
+	</select>
+	<select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from bill
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from bill
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="team.kirohuji.OrderManagerSystem.entity.Bill">
+		insert into bill (id, u_id, total_number,
+		ordercol, user_id, item_id,
+		status)
+		values (#{id,jdbcType=INTEGER}, #{uId,jdbcType=VARCHAR},
+		#{totalNumber,jdbcType=VARCHAR},
+		#{ordercol,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER},
+		#{status,jdbcType=VARCHAR})
+	</insert>
+	<update id="updateById" parameterType="team.kirohuji.OrderManagerSystem.entity.Bill">
+		update bill
+		set u_id = #{uId,jdbcType=VARCHAR},
+		total_number = #{totalNumber,jdbcType=VARCHAR},
+		ordercol = #{ordercol,jdbcType=VARCHAR},
+		user_id = #{userId,jdbcType=INTEGER},
+		item_id = #{itemId,jdbcType=INTEGER},
+		status = #{status,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
 </mapper>

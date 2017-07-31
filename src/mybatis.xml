@@ -33,7 +33,10 @@
 		<mapper resource="team/kirohuji/OrderManagerSystem/mapping/ShopMapper.xml" />
 		<mapper
 			resource="team/kirohuji/OrderManagerSystem/mapping/GoodsHasShopMapper.xml" />
+		<mapper resource="team/kirohuji/OrderManagerSystem/mapping/BillMapper.xml" />
+		<mapper resource="team/kirohuji/OrderManagerSystem/mapping/ItemMapper.xml" />
 	</mappers>
+
 
 </configuration>
 
