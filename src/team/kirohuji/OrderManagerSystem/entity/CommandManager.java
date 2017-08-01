@@ -11,6 +11,8 @@ import java.util.List;
 import team.kirohuji.OrderManagerSystem.util.Errors;
 
 public interface CommandManager {
+	public void execute(User player, CommandType buyer);
+
 	public User execute(User player);
 
 	public User execute(CommandType buyer);
@@ -19,5 +21,5 @@ public interface CommandManager {
 
 	public void getSystemCommand(Instruct instruct) throws ClassNotFoundException, IOException;
 
-	public void execute(User player, CommandType buyer);
+	public boolean playerJudge();
 }

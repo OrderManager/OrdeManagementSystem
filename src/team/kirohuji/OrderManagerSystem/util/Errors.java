@@ -6,30 +6,28 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
 public class Errors {
-	private JdbcUtil jdbc = null;
-	private SqlSession sqlSession;
-	private static Errors errors;
-	public Errors() {
-		try {
-			jdbc = JdbcUtil.getInstance();
-		} catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	public static Errors getInstance(){
-		if(errors==null){
-			return errors=new Errors();
-		}else{
-			return errors;
-		}
-	}
-	public boolean RenameProcessing(Object object,String tableName){
+	public static boolean RenameProcessing(Object object,String tableName){
 		
 		return false;
 	}
-	public boolean NullPointerProcessing(Object object){
+	/**
+	 * 进行对象是否为空判断
+	 * @param object
+	 * @return true 代表类型为空
+	 */
+	public static boolean NullPointerProcessing(Object object){
 		if(object==null){
+			return false;
+		}else{
+			return true;
+		}
+	}
+	/**
+	 * @param number
+	 * @return
+	 */
+	public static boolean NullPointerProcessing(int number){
+		if(number<=0){
 			return false;
 		}else{
 			return true;

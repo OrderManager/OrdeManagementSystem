@@ -10,6 +10,8 @@ import team.kirohuji.OrderManagerSystem.entity.CommandManager;
 import team.kirohuji.OrderManagerSystem.entity.CommandType;
 import team.kirohuji.OrderManagerSystem.entity.Instruct;
 import team.kirohuji.OrderManagerSystem.entity.User;
+import team.kirohuji.OrderManagerSystem.service.ConsoleCommandManager;
+import team.kirohuji.OrderManagerSystem.service.SystemCommandManager;
 import team.kirohuji.OrderManagerSystem.util.CommandTypeJudge;
 import team.kirohuji.OrderManagerSystem.util.Errors;
 import team.kirohuji.OrderManagerSystem.util.JdbcUtil;
@@ -20,24 +22,24 @@ public class OrderManagerLauncher {
 	private User player = null;
 	private JdbcUtil jdbc = null;
 	private Errors erros=null;
-	private CommandManager systemCommandManager = null;
-	private CommandManager consoleCommandManager = null;
+	private SystemCommandManager systemCommandManager = null;
+	private ConsoleCommandManager consoleCommandManager = null;
 	private SqlSession sqlSession;
 	private CommandTypeJudge commandTypeJudge;
 
 	public OrderManagerLauncher() {
 
 	}
-
+	//运行主线程
 	public boolean execute() throws SQLException {
+		//加载配置
 		load();
 		OrderManagerConsole.print("OrderManagerSystem version 1.0");
 		OrderManagerConsole.println("Nice to meet you,Enter \"help\" for usage hints.");
 		OrderManagerConsole.println("If no account please register first");
-	//	OrderManagerConsole.printUsage(container,OrderManagerConsole.SYSTEMCOMMAND);
 		while (true) {
 			instruct = EncapsulationCommand(OrderManagerConsole.askUserInput(OrderManagerConsole.COMMANDLINE+"> "));
-			if (instruct != null) {
+			if (Errors.NullPointerProcessing(instruct)) {
 				if (instruct.getName().equalsIgnoreCase("exit")){
 					sqlSession.close();
 					break;
@@ -77,7 +79,8 @@ public class OrderManagerLauncher {
 			} else {
 				OrderManagerConsole.println("Don't have this command, please enter again");
 			}
-		}return true;
+		}
+		return true;
 	}
 
 	private JdbcUtil loadBeSuper() {
@@ -93,13 +96,15 @@ public class OrderManagerLauncher {
 		CommandManagerProducer cmp = new CommandManagerProducer();
 		jdbc = loadBeSuper();
 		sqlSession = jdbc.getSqlSessionFactory().openSession();
-		systemCommandManager = cmp.getFactory("System").getInstanceSystemManager();
+		systemCommandManager = CommandManagerProducer.getFactory("System").getInstanceSystemManager();
 		consoleCommandManager = cmp.getFactory("Console").getInstanceConsoleManager();
 		commandTypeJudge = new CommandTypeJudge();
-		erros=Errors.getInstance();
 	}
 
 	private Instruct EncapsulationCommand(String command) {
+		if(command.equals("")||command==null){
+			OrderManagerConsole.println("Invalid input.Empty value is not allowed!");
+		}
 		return new InstructImp().selectByName(command.toLowerCase());
 	}
 

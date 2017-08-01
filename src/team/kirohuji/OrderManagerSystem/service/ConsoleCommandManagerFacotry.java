@@ -11,20 +11,20 @@ import team.kirohuji.OrderManagerSystem.entity.AbstractCommandManager;
 import team.kirohuji.OrderManagerSystem.entity.CommandManager;
 
 public class ConsoleCommandManagerFacotry extends AbstractCommandManager{
-	private static volatile CommandManager commandManager;
+	private static volatile ConsoleCommandManager commandManager;
 	@Override
-	public CommandManager getInstanceConsoleManager() {
+	public ConsoleCommandManager getInstanceConsoleManager() {
 		return commandManager=getInstance();
 	}
 
 	@Override
-	public CommandManager getInstanceSystemManager() {
+	public SystemCommandManager getInstanceSystemManager() {
 		return null;
 
 	}
-	public static synchronized CommandManager getInstance() {
+	public static synchronized ConsoleCommandManager getInstance() {
 		if (commandManager == null) {
-			return (ConsoleCommandManager)(commandManager = new ConsoleCommandManager());
+			return commandManager = new ConsoleCommandManager();
 		}
 		return null;
 	}

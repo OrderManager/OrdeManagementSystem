@@ -25,7 +25,6 @@ public class SystemCommandManager implements CommandManager {
 	private Command command;
 	private User player;
 	private Connection conn = null;
-	private Errors errors=Errors.getInstance();
 
 	@Override
 	public void execute(User player, CommandType buyer) {
@@ -48,28 +47,51 @@ public class SystemCommandManager implements CommandManager {
 
 	@Override
 	public void getConsoleCommand(Instruct instruct) throws ClassNotFoundException, IOException, SQLException {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void getSystemCommand(Instruct instruct) throws ClassNotFoundException, IOException {
 		jdbc = JdbcUtil.getInstance();
-		if (player == null && instruct.getName().toLowerCase().equalsIgnoreCase("logout")) {
-			command = c -> {
-				OrderManagerConsole.println("You are not logged in, so you can't log out");
-				return false;
-			};
+		// 每次进行用户判断是否为空
+		if (playerJudge()) {
+			switch (instruct.getName().toLowerCase()) {
+			// 帮助
+			case "help":
+				command = c -> {
+					OrderManagerConsole.printUsage(OrderManagerConsole.SYSTEMCOMMAND);
+					return true;
+				};
+				break;
+			// 登录
+			case "login":
+				command = c -> {
+					String code = OrderManagerConsole.askUserInput("Please enter your account\nlogin>");
+					String password = OrderManagerConsole.askUserInput("Please enter your password\nlogin>");
+					return login(code, password);
+				};
+				break;
+			// 登出
+			case "logout":
+				command = c -> {
+					OrderManagerConsole.println("You are not logged in, so you can't log out");
+					return true;
+				};
+				break;
+			// 当前状态
+			case "status":
+				command = c -> {
+					System.out.println("You haven't logged in yet");
+					return true;
+				};
+				break;
+			}
 		} else {
 			switch (instruct.getName().toLowerCase()) {
 			case "help":
 				command = c -> {
-					if (player == null) {
-						OrderManagerConsole.printUsage(OrderManagerConsole.SYSTEMCOMMAND);
-					} else {
-						OrderManagerConsole.printUsage(OrderManagerConsole.SYSTEMCOMMAND);
-						OrderManagerConsole.printUsage(player.getRuleId(),player);
-					}
+					OrderManagerConsole.printUsage(OrderManagerConsole.SYSTEMCOMMAND);
+					OrderManagerConsole.printUsage(player.getRuleId(), player);
 					return true;
 				};
 				break;
@@ -87,55 +109,13 @@ public class SystemCommandManager implements CommandManager {
 					String money = OrderManagerConsole.askUserInput("Please enter your register money\nregister>");
 					String rule = OrderManagerConsole
 							.askUserInput("Please enter your register rule:buyer or seller or admin \ncmd>");
-					UserImp userUtil = new UserImp();
-					int rule_id = rule.equals("buyer") ? 3 : rule.equals("admin") ? 1 : 2;
-					User temp = new User(userUtil.selectId() + 1, name, code, password, Integer.valueOf(phone), address,
-							Double.valueOf(money), rule_id);
-					OrderManagerConsole.println("regigstering...");
-					if (userUtil.insert(temp) > 0) {
-						OrderManagerConsole.println("success register");
-						String is = OrderManagerConsole.askUserInput("Are you logged in?:yes or no\ncmd>");
-						if (is.equalsIgnoreCase("yes")) {
-							OrderManagerConsole.println("success login");
-							OrderManagerConsole.println("Welcome " + temp.getName());
-							OrderManagerConsole
-									.println("Your current status is " + userUtil.selectByCodeGainRule(temp));
-							this.player = temp;
-							return true;
-						} else {
-							OrderManagerConsole.println("Success,You can type 'help' for usage");
-							this.player = null;
-							return true;
-						}
-
-					}
-					return true;
+					return register(rule, name, code, password, phone, address, money);
 				};
 				break;
 			case "login":
 				command = c -> {
-					if (player != null && instruct.getName().toLowerCase().equalsIgnoreCase("login")) {
-						OrderManagerConsole.println("Login Error");
-						OrderManagerConsole.println("Unable to log in because you are logged in");
-						return false;
-					}
-					String code = OrderManagerConsole.askUserInput("Please enter your account\nlogin>");
-					String password = OrderManagerConsole.askUserInput("Please enter your password\nlogin>");
-					UserImp userUtil = new UserImp();
-					User temp = new User();
-					temp.setCode(code);
-					temp.setPassword(password);
-					OrderManagerConsole.println("loging...");
-					temp = userUtil.selectUserByCodeAndPassword(temp);
-					if (temp != null) {
-						OrderManagerConsole.println("Success login");
-						OrderManagerConsole.println("Welcome " + temp.getName());
-						OrderManagerConsole.println("Your current status is " + userUtil.selectByCodeGainRule(temp));
-						this.player = temp;
-					} else {
-						OrderManagerConsole.println("Login Error");
-						OrderManagerConsole.println("User name or password error");
-					}
+					OrderManagerConsole.println("Login Error");
+					OrderManagerConsole.println("Unable to log in because you are logged in");
 					return true;
 				};
 				break;
@@ -149,11 +129,7 @@ public class SystemCommandManager implements CommandManager {
 				break;
 			case "status":
 				command = c -> {
-					if(player==null){
-						System.out.println("You haven't logged in yet");
-					}else{
-						System.out.println(player);
-					}
+					System.out.println(player);
 					return true;
 				};
 				break;
@@ -167,4 +143,86 @@ public class SystemCommandManager implements CommandManager {
 		}
 	}
 
+	/**
+	 * 用户登录
+	 * 
+	 * @param code
+	 * @param password
+	 * @return true 代表登录成功
+	 * @return false 代表登录失败
+	 */
+	private boolean login(String code, String password) {
+		UserImp userUtil = new UserImp();
+		User temp = new User();
+		temp.setCode(code);
+		temp.setPassword(password);
+		OrderManagerConsole.println("loging...");
+		temp = userUtil.selectUserByCodeAndPassword(temp);
+		if (Errors.NullPointerProcessing(temp)) {
+			OrderManagerConsole.println("Login Error");
+			OrderManagerConsole.println("User name or password error");
+			return false;
+		} else {
+			OrderManagerConsole.println("Success login");
+			OrderManagerConsole.println("Welcome " + temp.getName());
+			OrderManagerConsole.println("Your current status is " + userUtil.selectByCodeGainRule(temp));
+			this.player = temp;
+			return true;
+		}
+	}
+
+	/**
+	 * 用户判断
+	 * 
+	 * @return true 代表用户为为空
+	 * @return false 代表用户不为空
+	 */
+	public boolean playerJudge() {
+		if (player == null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * 注册用户
+	 * 
+	 * @param rule
+	 * @param name
+	 * @param code
+	 * @param password
+	 * @param phone
+	 * @param address
+	 * @param money
+	 * @return true 表示注册成功
+	 * @return false 表示注册失败
+	 */
+	public boolean register(String rule, String name, String code, String password, String phone, String address,
+			String money) {
+		UserImp userUtil = new UserImp();
+		int rule_id = rule.equals("buyer") ? 3 : rule.equals("admin") ? 1 : 2;
+		User temp = new User(userUtil.selectId() + 1, name, code, password, Integer.valueOf(phone), address,
+				Double.valueOf(money), rule_id);
+		OrderManagerConsole.println("regigstering...");
+		if (Errors.NullPointerProcessing(userUtil.insert(temp))) {
+			OrderManagerConsole.println("success register");
+			String is = OrderManagerConsole.askUserInput("Are you logged in?:yes or no\ncmd>");
+			if (is.equalsIgnoreCase("yes")) {
+				OrderManagerConsole.println("success login");
+				OrderManagerConsole.println("Welcome " + temp.getName());
+				OrderManagerConsole.println("Your current status is " + userUtil.selectByCodeGainRule(temp));
+				this.player = temp;
+				return true;
+			} else {
+				OrderManagerConsole.println("Success,You can type 'help' for usage");
+				this.player = null;
+				return true;
+			}
+		} else {
+			OrderManagerConsole.println("Failure,Your registered user already exists,You can type 'help' for usage");
+			return false;
+		}
+
+	}
 }

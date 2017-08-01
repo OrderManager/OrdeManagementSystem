@@ -17,4 +17,21 @@ public class CommandTypeJudge {
 		
 	}
 	
+	/**
+	 * 用户和命令的类型匹配
+	 * @param instruct
+	 * @param user
+	 * @return true 代表相等
+	 * @return false 代表不相等
+	 */
+	public boolean JudgeAndUser(Instruct instruct,User user) {
+		if(instruct.getId()==OrderManagerConsole.SYSTEMCOMMAND){
+			return true;
+		}
+		if(user.getRuleId()==instruct.getId()){
+			return true;
+		}else{
+			return false;
+		}
+	}
 }

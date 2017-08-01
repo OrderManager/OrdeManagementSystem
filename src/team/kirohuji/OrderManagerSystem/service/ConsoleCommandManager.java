@@ -30,7 +30,6 @@ public class ConsoleCommandManager implements CommandManager {
 	private JdbcUtil jdbc = null;
 	private Command command = null;
 	private User player = null;
-	private Errors errors = Errors.getInstance();
 
 	public User execute(User player) {
 		this.player = player;
@@ -218,5 +217,11 @@ public class ConsoleCommandManager implements CommandManager {
 	@Override
 	public void getSystemCommand(Instruct instruct) throws ClassNotFoundException, IOException {
 
+	}
+
+	@Override
+	public boolean playerJudge() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

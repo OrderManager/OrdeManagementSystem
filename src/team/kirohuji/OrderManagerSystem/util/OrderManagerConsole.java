@@ -13,8 +13,8 @@ import team.kirohuji.OrderManagerSystem.entity.Instruct;
 import team.kirohuji.OrderManagerSystem.entity.User;
 
 public class OrderManagerConsole {
-
-	public static final String CMD = "cmd";
+	//默认的进入界面
+	public static String CMD = "cmd";
 	public static String COMMANDLINE = CMD;
 	public static final int SYSTEMCOMMAND = 1;
 	public static final int SELLERCOMMAND = 2;
@@ -39,19 +39,20 @@ public class OrderManagerConsole {
 	public static void println(String line) {
 		System.out.println(line);
 	}
-
+	
 	public static String askUserInput(String prompt) {
 		while (true) {
 			System.out.println(prompt);
 			String input = scanner.nextLine().trim();
-//			if (!"".equals(input)) {
-//				return input;
-//			}
-		//	System.out.println("Invalid input.Empty value is not allowed!");
 			return input;
 		}
 	}
 
+	/**
+	 * 根据用户类型和命令类型进行处理
+	 * @param type
+	 * @param user
+	 */
 	public static void printUsage(int type, User user) {
 		JdbcUtil jdbc;
 		List<String> excludeByNotAddress = Arrays.asList("buy", "outshop", "addItemCart", "showgoods");
@@ -106,6 +107,10 @@ public class OrderManagerConsole {
 
 	}
 
+	/**
+	 * 根据类型进行打印帮助命令
+	 * @param type
+	 */
 	public static void printUsage(int type) {
 		JdbcUtil jdbc;
 		try {
