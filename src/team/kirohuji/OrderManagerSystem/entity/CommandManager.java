@@ -21,5 +21,5 @@ public interface CommandManager {
 
 	public void getSystemCommand(Instruct instruct) throws ClassNotFoundException, IOException;
 
-	public boolean playerJudge();
+	public boolean playerJudge(Instruct instruct);
 }

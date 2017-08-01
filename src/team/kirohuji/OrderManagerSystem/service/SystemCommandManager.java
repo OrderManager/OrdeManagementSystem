@@ -53,8 +53,9 @@ public class SystemCommandManager implements CommandManager {
 	@Override
 	public void getSystemCommand(Instruct instruct) throws ClassNotFoundException, IOException {
 		jdbc = JdbcUtil.getInstance();
+		this.instruct=instruct;
 		// 每次进行用户判断是否为空
-		if (playerJudge()) {
+		if (playerJudge(instruct)) {
 			switch (instruct.getName().toLowerCase()) {
 			// 帮助
 			case "help":
@@ -177,7 +178,7 @@ public class SystemCommandManager implements CommandManager {
 	 * @return true 代表用户为为空
 	 * @return false 代表用户不为空
 	 */
-	public boolean playerJudge() {
+	public boolean playerJudge(Instruct instruct) {
 		if (player == null) {
 			return true;
 		} else {

@@ -52,8 +52,9 @@ public class ConsoleCommandManager implements CommandManager {
 
 	@Override
 	public void getConsoleCommand(Instruct instruct) throws ClassNotFoundException, IOException, SQLException {
+		this.instruct=instruct;
 		jdbc = JdbcUtil.getInstance();
-		playerJudge();
+		playerJudge(this.instruct);
 		OrderManagerConsole.println("Invalid command.See the user as below:\n");
 	}
 
@@ -63,7 +64,7 @@ public class ConsoleCommandManager implements CommandManager {
 	}
 
 	@Override
-	public boolean playerJudge() {
+	public boolean playerJudge(Instruct instruct) {
 		if (playerType == 0) {
 			if (instruct.getRuleId() == OrderManagerConsole.SELLERCOMMAND) {
 				playerType = OrderManagerConsole.SELLERCOMMAND;

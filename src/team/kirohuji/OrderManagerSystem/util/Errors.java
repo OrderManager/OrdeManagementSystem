@@ -17,9 +17,9 @@ public class Errors {
 	 */
 	public static boolean NullPointerProcessing(Object object){
 		if(object==null){
-			return false;
-		}else{
 			return true;
+		}else{
+			return false;
 		}
 	}
 	/**
@@ -28,16 +28,16 @@ public class Errors {
 	 */
 	public static boolean NullPointerProcessing(int number){
 		if(number<=0){
-			return false;
-		}else{
 			return true;
+		}else{
+			return false;
 		}
 	}
 	public static boolean NullPointerProcessing(String value){
 		if(value==null||value.equals("")){
-			return false;
-		}else{
 			return true;
+		}else{
+			return false;
 		}
 	}
 }

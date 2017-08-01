@@ -40,6 +40,9 @@ public class OrderManagerLauncher {
 		while (true) {
 			instruct = EncapsulationCommand(OrderManagerConsole.askUserInput(OrderManagerConsole.COMMANDLINE+"> "));
 			if (Errors.NullPointerProcessing(instruct)) {
+				OrderManagerConsole.println("Don't have this command, please enter again");
+				continue;
+			} else {
 				if (instruct.getName().equalsIgnoreCase("exit")){
 					sqlSession.close();
 					break;
@@ -76,8 +79,6 @@ public class OrderManagerLauncher {
 				default:
 					break;
 				}
-			} else {
-				OrderManagerConsole.println("Don't have this command, please enter again");
 			}
 		}
 		return true;
