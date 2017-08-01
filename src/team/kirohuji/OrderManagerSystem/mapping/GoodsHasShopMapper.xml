@@ -31,7 +31,7 @@
 		select s.name as shop_name,g.name as goods_name,g.price,g.inventry
 		from goods g join goods_has_shop
 		ghs on ghs.goods_id=g.id join shop s
-		on s.id=ghs.shop_id;
+		on s.id=ghs.shop_id where g.is_delete=0;
 	</select>
 	<resultMap id="ShopAndGoodsResultMap"
 		type="team.kirohuji.OrderManagerSystem.entity.ShopAndGoods">

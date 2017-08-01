@@ -52,9 +52,8 @@ public class ConsoleCommandManager implements CommandManager {
 
 	@Override
 	public void getConsoleCommand(Instruct instruct) throws ClassNotFoundException, IOException, SQLException {
-		this.instruct=instruct;
 		jdbc = JdbcUtil.getInstance();
-		playerJudge(this.instruct);
+		playerJudge(instruct);
 		OrderManagerConsole.println("Invalid command.See the user as below:\n");
 	}
 
@@ -72,18 +71,18 @@ public class ConsoleCommandManager implements CommandManager {
 				playerType = OrderManagerConsole.BUYERCOMMAND;
 			}
 		}
-		switch (playerType) {
-		case OrderManagerConsole.SELLERCOMMAND:
-			seller();
-			break;
-		case OrderManagerConsole.BUYERCOMMAND:
-			buyer();
-			break;
-		}
-		return false;
+			switch (playerType) {
+			case OrderManagerConsole.SELLERCOMMAND:
+				seller(instruct);
+				break;
+			case OrderManagerConsole.BUYERCOMMAND:
+				buyer(instruct);
+				break;
+			}
+			return true;
 	}
 
-	private void buyer() {
+	private void buyer(Instruct instruct) {
 		switch (instruct.getName().toLowerCase()) {
 		case "intoshop":
 			command = c -> {
@@ -174,7 +173,7 @@ public class ConsoleCommandManager implements CommandManager {
 		}
 	}
 
-	private void seller() {
+	private void seller(Instruct instruct) {
 		switch (instruct.getName().toLowerCase()) {
 		case "addgoods":
 			command = c -> {
@@ -238,8 +237,13 @@ public class ConsoleCommandManager implements CommandManager {
 			command = c -> {
 				ShopImp shopUtil = new ShopImp();
 				ArrayList<Shop> shops = shopUtil.selectAllByUserId(player.getId());
-				shops.stream().filter(s -> s.getIsOpen() != 0).forEach(System.out::println);
-				return true;
+				if (Errors.NullPointerProcessing(shops)) {
+					OrderManagerConsole.println("You didn't open a shop");
+					return true;
+				} else {
+					shops.stream().filter(s -> s.getIsOpen() != 0).forEach(System.out::println);
+					return true;
+				}
 			};
 			break;
 		default:
@@ -261,7 +265,9 @@ public class ConsoleCommandManager implements CommandManager {
 	}
 
 	private boolean addGoods(String goodName, String price, String content, String inventry, String shopName) {
-		if (Errors.NullPointerProcessing(shopName)) {
+		ShopImp shopUtil = new ShopImp();
+		Shop shop = shopUtil.selectByName(shopName);
+		if (Errors.NullPointerProcessing(shop)) {
 			OrderManagerConsole.println("There is no the shop of the name");
 			return false;
 		} else {
@@ -273,12 +279,14 @@ public class ConsoleCommandManager implements CommandManager {
 				OrderManagerConsole.println("Failure addGoods");
 				return false;
 			} else {
-				ShopImp shopUtil = new ShopImp();
-				Shop shop = shopUtil.selectByName(shopName);
 				GoodsHasShop goodsHasShop = new GoodsHasShop(id, shop.getId());
-				goodsHasShopUtil.insert(goodsHasShop);
-				OrderManagerConsole.println("Success addGoods");
-				return true;
+				if (Errors.NullPointerProcessing(goodsHasShopUtil.insert(goodsHasShop))) {
+					OrderManagerConsole.println("Failure addGoods,We have the goods");
+					return false;
+				} else {
+					OrderManagerConsole.println("Success addGoods");
+					return true;
+				}
 			}
 		}
 	}

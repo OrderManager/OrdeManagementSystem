@@ -50,8 +50,7 @@ public class ShopAndGoods {
 
 	@Override
 	public String toString() {
-		return "ShopAndGoods [shopName=" + shopName + ", goodsName=" + goodsName + ", price=" + price + ", idDelete="
-				+ idDelete + ", inventry=" + inventry + "]";
+		return "ShopAndGoods [shopName=" + shopName + ", goodsName=" + goodsName + ", price=" + price + ", inventry=" + inventry + "]";
 	}
 
 

@@ -76,6 +76,7 @@ public class SystemCommandManager implements CommandManager {
 			case "logout":
 				command = c -> {
 					OrderManagerConsole.println("You are not logged in, so you can't log out");
+					OrderManagerConsole.COMMANDLINE = OrderManagerConsole.CMD;
 					return true;
 				};
 				break;

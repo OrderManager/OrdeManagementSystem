@@ -21,7 +21,7 @@ public class OrderManagerLauncher {
 	private Instruct instruct = null;
 	private User player = null;
 	private JdbcUtil jdbc = null;
-	private Errors erros=null;
+	private Errors erros = null;
 	private SystemCommandManager systemCommandManager = null;
 	private ConsoleCommandManager consoleCommandManager = null;
 	private SqlSession sqlSession;
@@ -30,20 +30,21 @@ public class OrderManagerLauncher {
 	public OrderManagerLauncher() {
 
 	}
-	//运行主线程
+
+	// 运行主线程
 	public boolean execute() throws SQLException {
-		//加载配置
+		// 加载配置
 		load();
 		OrderManagerConsole.print("OrderManagerSystem version 1.0");
 		OrderManagerConsole.println("Nice to meet you,Enter \"help\" for usage hints.");
 		OrderManagerConsole.println("If no account please register first");
 		while (true) {
-			instruct = EncapsulationCommand(OrderManagerConsole.askUserInput(OrderManagerConsole.COMMANDLINE+"> "));
+			instruct = EncapsulationCommand(OrderManagerConsole.askUserInput(OrderManagerConsole.COMMANDLINE + "> "));
 			if (Errors.NullPointerProcessing(instruct)) {
 				OrderManagerConsole.println("Don't have this command, please enter again");
 				continue;
 			} else {
-				if (instruct.getName().equalsIgnoreCase("exit")){
+				if (instruct.getName().equalsIgnoreCase("exit")) {
 					sqlSession.close();
 					break;
 				}
@@ -60,8 +61,12 @@ public class OrderManagerLauncher {
 					break;
 				case SELLER:
 					try {
-						consoleCommandManager.getConsoleCommand(instruct);
-						consoleCommandManager.execute(player,commandType.SELLER);
+						if (player.getRuleId() == instruct.getRuleId()) {
+							consoleCommandManager.getConsoleCommand(instruct);
+							consoleCommandManager.execute(player, commandType.SELLER);
+						} else {
+							OrderManagerConsole.println("Don't have this command, please enter again");
+						}
 						continue;
 					} catch (ClassNotFoundException | IOException e) {
 						e.printStackTrace();
@@ -69,8 +74,12 @@ public class OrderManagerLauncher {
 					break;
 				case BUYER:
 					try {
-						consoleCommandManager.getConsoleCommand(instruct);
-						consoleCommandManager.execute(player,commandType.BUYER);
+						if (player.getRuleId() == instruct.getRuleId()) {
+							consoleCommandManager.getConsoleCommand(instruct);
+							consoleCommandManager.execute(player, commandType.BUYER);
+						} else {
+							OrderManagerConsole.println("Don't have this command, please enter again");
+						}
 						continue;
 					} catch (ClassNotFoundException | IOException e) {
 						e.printStackTrace();
@@ -103,7 +112,7 @@ public class OrderManagerLauncher {
 	}
 
 	private Instruct EncapsulationCommand(String command) {
-		if(command.equals("")||command==null){
+		if (command.equals("") || command == null) {
 			OrderManagerConsole.println("Invalid input.Empty value is not allowed!");
 		}
 		return new InstructImp().selectByName(command.toLowerCase());
