@@ -16,11 +16,11 @@ public interface IShop {
 
 	List<Shop> selectAll();
 
-	public Shop selectByName(String name);
+	Shop selectByName(String name);
 
-	public void updateByNameOpen(String name);
+	int updateByNameOpen(String name);
 
-	public void updateByNameClose(String name);
-	
+	int updateByNameClose(String name);
+
 	ArrayList<Shop> selectAllByUserId(Integer integer);
 }

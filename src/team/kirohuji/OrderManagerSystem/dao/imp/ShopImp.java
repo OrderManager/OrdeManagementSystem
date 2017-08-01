@@ -65,19 +65,21 @@ public class ShopImp implements IShop{
 		return (ArrayList<Shop>) shops;
 	}
 	@Override
-	public void updateByNameOpen(String name) {
+	public int updateByNameOpen(String name) {
 		sqlSession = jdbc.getSqlSessionFactory().openSession();
-		sqlSession.update("team.kirohuji.OrderManagerSystem.mapping.ShopMapper.updateByNameOpen", name);
+		int id=sqlSession.update("team.kirohuji.OrderManagerSystem.mapping.ShopMapper.updateByNameOpen", name);
 		sqlSession.commit();
 		sqlSession.close();
+		return id;
 		
 	}
 	@Override
-	public void updateByNameClose(String name) {
+	public int updateByNameClose(String name) {
 		sqlSession = jdbc.getSqlSessionFactory().openSession();
-		sqlSession.update("team.kirohuji.OrderManagerSystem.mapping.ShopMapper.updateByNameClose", name);
+		int id=sqlSession.update("team.kirohuji.OrderManagerSystem.mapping.ShopMapper.updateByNameClose", name);
 		sqlSession.commit();
 		sqlSession.close();
+		return id;
 		
 	}
 	@Override

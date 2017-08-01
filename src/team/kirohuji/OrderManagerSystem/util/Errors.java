@@ -33,4 +33,11 @@ public class Errors {
 			return true;
 		}
 	}
+	public static boolean NullPointerProcessing(String value){
+		if(value==null||value.equals("")){
+			return false;
+		}else{
+			return true;
+		}
+	}
 }
